@@ -28,23 +28,18 @@ before you try to use ``django_mobile`` make sure that the sessions framework
 is enabled and working.
 
 1. Install ``django_mobile`` with your favourite python tool, e.g. with
-``easy_install django_mobile`` or ``pip install django_mobile``.
-
+   ``easy_install django_mobile`` or ``pip install django_mobile``.
 2. Add ``django_mobile`` to your ``INSTALLED_APPS`` setting in the
-``settings.py``.
-
+   ``settings.py``.
 3. Add ``django_mobile.middleware.MobileDetectionMiddleware`` to your
-``MIDDLEWARE_CLASSES`` setting.
-
+   ``MIDDLEWARE_CLASSES`` setting.
 4. Add ``django_mobile.middleware.SetFlavourMiddleware`` to your
-``MIDDLEWARE_CLASSES`` setting. Make sure it's listed *after*
-``MobileDetectionMiddleware`` and also after ``SessionMiddleware``.
-
+   ``MIDDLEWARE_CLASSES`` setting. Make sure it's listed *after*
+   ``MobileDetectionMiddleware`` and also after ``SessionMiddleware``.
 5. Add ``django_mobile.loader.Loader`` as first item to your
-``TEMPLATE_LOADERS`` list in ``settings.py``.
-
+   ``TEMPLATE_LOADERS`` list in ``settings.py``.
 6. Add ``django_mobile.context_processors.flavour`` to your
-``TEMPLATE_CONTEXT_PROCESSORS`` setting.
+   ``TEMPLATE_CONTEXT_PROCESSORS`` setting.
 
 No you should be able to use **django-mobile** in its glory. Read below of how
 things work and which settings can be tweaked to modify **django-mobile**'s
