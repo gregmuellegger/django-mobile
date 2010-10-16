@@ -41,9 +41,9 @@ is enabled and working.
 6. Add ``django_mobile.context_processors.flavour`` to your
    ``TEMPLATE_CONTEXT_PROCESSORS`` setting.
 
-No you should be able to use **django-mobile** in its glory. Read below of how
+Now you should be able to use **django-mobile** in its glory. Read below of how
 things work and which settings can be tweaked to modify **django-mobile**'s
-behviour.
+behaviour.
 
 
 Usage
@@ -67,17 +67,17 @@ tablets like the iPad.
 
 After the correct flavour is somehow chosen by the middlewares, it's
 assigned to the ``request.flavour`` attribute. You can use this in your views
-to provide seperate logic for each flavour.
+to provide separate logic for each flavour.
 
 This flavour is then use to transparently choose custom templates for this
 special flavour. The selected template will have the current flavour prefixed
 to the template name you actually want to render. This means when
 ``render_to_response('index.html', ...)`` is called with the *mobile* flavour
-beeing active will actually return a response rendered with the
+being active will actually return a response rendered with the
 ``mobile/index.html`` template. However if this flavoured template is not
 available it will gracefully fallback to the default ``index.html`` template.
 
-In some cases its not the desired way to have a completly seperate templates
+In some cases its not the desired way to have a completely separate templates
 for each flavour. You can also use the ``{{ flavour }}`` template variable to
 only change small aspects of a single template. A short example::
 
@@ -94,7 +94,7 @@ This will add ``(mobile version)`` to the title of your site if viewed with
 the *mobile* flavour enabled.
 
 .. note:
-   The ``flavour`` template variable is only available if you have setup the
+   The ``flavour`` template variable is only available if you have set up the
    ``django_mobile.context_processors.flavour`` context processor and used
    django's ``RequestContext`` as context instance to render the template.
 
@@ -117,7 +117,7 @@ Default: ``('full', 'mobile')``
 DEFAULT_MOBILE_FLAVOUR
 ^^^^^^^^^^^^^^^^^^^^^^
 
-The flavour which is choosen if the builtin ``MobileDetectionMiddleware``
+The flavour which is chosen if the built-in ``MobileDetectionMiddleware``
 detects a mobile browser.
 
 Default: ``mobile``
@@ -126,7 +126,7 @@ FLAVOURS_TEMPLATE_DIRS_PREFIX
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 This string will be prefixed to the template names when searching for
-flavoured templates. This is usefull if have many flavours and want to store
+flavoured templates. This is useful if have many flavours and want to store
 them in a common subdirectory. Example::
 
     from django.conf import settings
@@ -157,7 +157,7 @@ Default: ``'flavour'``
 FLAVOURS_SESSION_KEY
 ^^^^^^^^^^^^^^^^^^^^
 
-The user's prefernce set with the GET parameter is stored in the user's
+The user's preference set with the GET parameter is stored in the user's
 session. This setting determines which session key is used to hold this
 information.
 
