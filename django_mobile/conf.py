@@ -15,15 +15,15 @@ class SettingsProxy(object):
             try:
                 return getattr(self.defaults, attr)
             except AttributeError:
-                raise AttributeError, 'settings object has no attribute "%s"' % attr
+                raise AttributeError, u'settings object has no attribute "%s"' % attr
 
 
 class defaults(object):
-    FLAVOURS = ('full', 'mobile',)
-    DEFAULT_MOBILE_FLAVOUR = 'mobile'
-    FLAVOURS_TEMPLATE_DIRS_PREFIX = ''
-    FLAVOURS_GET_PARAMETER = 'flavour'
-    FLAVOURS_SESSION_KEY = 'flavour'
+    FLAVOURS = (u'full', u'mobile',)
+    DEFAULT_MOBILE_FLAVOUR = u'mobile'
+    FLAVOURS_TEMPLATE_DIRS_PREFIX = u''
+    FLAVOURS_GET_PARAMETER = u'flavour'
+    FLAVOURS_SESSION_KEY = u'flavour'
 
 
 settings = SettingsProxy(django_settings, defaults)
