@@ -8,8 +8,10 @@ class SetFlavourMiddleware(object):
         _set_request(request)
 
         if settings.FLAVOURS_GET_PARAMETER in request.GET:
-            request.session[settings.FLAVOURS_SESSION_KEY] = \
-                request.GET[settings.FLAVOURS_GET_PARAMETER]
+            flavour = request.GET[settings.FLAVOURS_GET_PARAMETER]
+            if flavour in settings.FLAVOURS:
+                set_flavour(flavour, permanent=True)
+                return
 
         flavour = request.session.get(settings.FLAVOURS_SESSION_KEY, None)
         if flavour not in settings.FLAVOURS:

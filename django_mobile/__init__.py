@@ -13,14 +13,17 @@ def get_flavour(request=None, default=None):
     return flavour or default or settings.FLAVOURS[0]
 
 
-def set_flavour(flavour):
+def set_flavour(flavour, request=None, permanent=True):
     if flavour not in settings.FLAVOURS:
         raise ValueError(
             u"'%r' is no valid flavour. Allowed flavours are: %s" % (
                 flavour,
                 ', '.join(settings.FLAVOURS),))
-    if hasattr(_local, 'request'):
-        _local.request.flavour = flavour
+    request = request or getattr(_local, 'request', None)
+    if request:
+        request.flavour = flavour
+        if permanent:
+            request.session[settings.FLAVOURS_SESSION_KEY] = flavour
     _local.flavour = flavour
 
 
