@@ -1,6 +1,8 @@
 django-mobile
 =============
 
+.. _introduction:
+
 **django-mobile** provides a simple way to detect mobile browsers and gives
 you tools at your hand to render some different templates to deliver a mobile
 version of your site to the user.
@@ -18,6 +20,8 @@ on the flavour detected in the middleware.
 
 Installation
 ============
+
+.. _installation:
 
 *Pre-Requirements:* ``django_mobile`` depends on django's session framework. So
 before you try to use ``django_mobile`` make sure that the sessions framework
@@ -49,6 +53,8 @@ behviour.
 
 Usage
 =====
+
+.. _flavours:
 
 The concept of **django-mobile** is build around the ideas of different
 *flavours* of your site. For example the *mobile* version is described as
@@ -101,10 +107,10 @@ the *mobile* flavour enabled.
 Customization
 =============
 
-Coming soon ...
-
 Settings
 --------
+
+.. _settings:
 
 FLAVOURS
 ^^^^^^^^
