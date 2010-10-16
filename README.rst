@@ -13,10 +13,9 @@ interchange the templates used to render a response. This is done in two
 steps:
 
 1. A middleware determines the client's preference to view your site. E.g. if
-he wants to use the mobile flavour or the full desktop flavour.
-
+   he wants to use the mobile flavour or the full desktop flavour.
 2. The template loader takes then care of choosing the correct templates based
-on the flavour detected in the middleware.
+   on the flavour detected in the middleware.
 
 
 Installation
@@ -142,7 +141,7 @@ The built-in middleware to detect if the user is using a mobile browser served
 well in production but is far from perfect and also implemented in a very
 simplistic way. You can safely remove this middleware from your settings and add
 your own version instead. Just make sure that it calls
-``django_mobile.set_flavour`` at some point to set the correct *flavour* for
+``django_mobile.set_flavour`` at some point to set the correct flavour for
 you.
 
 Settings
@@ -158,7 +157,7 @@ FLAVOURS
 
 A list of available flavours for your site.
 
-Default: ``('full', 'mobile')``
+***Default:*** ``('full', 'mobile')``
 
 DEFAULT_MOBILE_FLAVOUR
 ^^^^^^^^^^^^^^^^^^^^^^
@@ -166,7 +165,7 @@ DEFAULT_MOBILE_FLAVOUR
 The flavour which is chosen if the built-in ``MobileDetectionMiddleware``
 detects a mobile browser.
 
-Default: ``mobile``
+***Default:*** ``mobile``
 
 FLAVOURS_TEMPLATE_DIRS_PREFIX
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -190,7 +189,7 @@ them in a common subdirectory. Example::
     set_flavour('mobile')
     render_to_string('index.html') # will render 'flavours/mobile/index.html'
 
-Default: ``''`` (empty string)
+***Default:*** ``''`` (empty string)
 
 FLAVOURS_GET_PARAMETER
 ^^^^^^^^^^^^^^^^^^^^^^
@@ -198,7 +197,7 @@ FLAVOURS_GET_PARAMETER
 Users can change the flavour they want to look at with a HTTP GET parameter.
 This determines the name of this parameter.
 
-Default: ``'flavour'``
+***Default:*** ``'flavour'``
 
 FLAVOURS_SESSION_KEY
 ^^^^^^^^^^^^^^^^^^^^
@@ -207,4 +206,4 @@ The user's preference set with the GET parameter is stored in the user's
 session. This setting determines which session key is used to hold this
 information.
 
-Default: ``'flavour'``
+***Default:*** ``'flavour'``
