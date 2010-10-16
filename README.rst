@@ -1,3 +1,4 @@
+=============
 django-mobile
 =============
 
@@ -98,14 +99,59 @@ the *mobile* flavour enabled.
    ``django_mobile.context_processors.flavour`` context processor and used
    django's ``RequestContext`` as context instance to render the template.
 
+Changing the current flavour
+----------------------------
+
+The basic use case of **django-mobile** is obviously to serve a mobile version
+of your site to users. The selection of the correct flavour is usually already
+done in the middlewares when your own views are called. In some cases you want
+to change the currently used flavour in your view or somewhere else. You can
+do this by simply calling ``django_method.set_flavour(flavour[,
+permanent=True])``. The first argument is self explaining. But keep in mind
+that you only can pass in a flavour that you is also in your ``FLAVOURS``
+setting. Otherwise ``set_flavour`` will raise a ``ValueError``. The optional
+``permanent`` parameters defines if the change of the flavour is remember for
+future requests of the same client.
+
+Your users can set their desired flavour themself. They just need to specify
+the ``flavour`` GET parameter on a request to your site. This will permanently
+choose this flavour as their preference to view the site.
+
+You can use this GET paremeter to let the user select from your available
+flavours::
+
+    <ul>
+        <li><a href="?flavour=full">Get the full experience</a>
+        <li><a href="?flavour=mobile">View our mobile version</a>
+        <li><a href="?flavour=ipad">View our iPad version</a>
+    </ul>
+
 
 Customization
 =============
+
+.. _customization:
+
+There are some points available that let you customize the behaviour of
+**django-mobile**. Here are some points listed:
+
+``MobileDetectionMiddleware``
+-----------------------------
+
+The built-in middleware to detect if the user is using a mobile browser served
+well in production but is far from perfect and also implemented in a very
+simplistic way. You can safely remove this middleware from your settings and add
+your own version instead. Just make sure that it calls
+``django_mobile.set_flavour`` at some point to set the correct *flavour* for
+you.
 
 Settings
 --------
 
 .. _settings:
+
+Here is a list of settings that are used by **django-mobile** and can be
+changed in your own ``settings.py``:
 
 FLAVOURS
 ^^^^^^^^
