@@ -81,6 +81,7 @@ INSTALLED_APPS = (
     'django_extensions',
 
     'appname',
+    'appname_tests',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
