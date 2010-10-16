@@ -39,14 +39,64 @@ is enabled and working.
 5. Add ``django_mobile.loader.Loader`` as first item to your
 ``TEMPLATE_LOADERS`` list in ``settings.py``.
 
+6. Add ``django_mobile.context_processors.flavour`` to your
+``TEMPLATE_CONTEXT_PROCESSORS`` setting.
+
 No you should be able to use **django-mobile** in its glory. Read below of how
 things work and which settings can be tweaked to modify **django-mobile**'s
 behviour.
 
+
 Usage
 =====
 
-Coming soon ...
+The concept of **django-mobile** is build around the ideas of different
+*flavours* of your site. For example the *mobile* version is described as
+one possible *flavour* of your site.
+
+This makes it possible to provide many possible *flavours* instead of just
+differentiating between a full desktop experience and one mobile version. You
+can make multiple mobile flavours available e.g. one for mobile safari on the
+iPhone and Android as well as one for Opera and an extra one for the internet
+tablets like the iPad.
+
+.. note:
+    By default **django-mobile** only distinguish between the flavours
+    *full* and *mobile*.
+
+After the correct flavour is somehow chosen by the middlewares, it's
+assigned to the ``request.flavour`` attribute. You can use this in your views
+to provide seperate logic for each flavour.
+
+This flavour is then use to transparently choose custom templates for this
+special flavour. The selected template will have the current flavour prefixed
+to the template name you actually want to render. This means when
+``render_to_response('index.html', ...)`` is called with the *mobile* flavour
+beeing active will actually return a response rendered with the
+``mobile/index.html`` template. However if this flavoured template is not
+available it will gracefully fallback to the default ``index.html`` template.
+
+In some cases its not the desired way to have a completly seperate templates
+for each flavour. You can also use the ``{{ flavour }}`` template variable to
+only change small aspects of a single template. A short example::
+
+    <html>
+    <head>
+        <title>My site {% if flavour == "mobile" %}(mobile version){% endif %}</title>
+    </head>
+    <body>
+        ...
+    </body>
+    </html>
+
+This will add ``(mobile version)`` to the title of your site if viewed with
+the *mobile* flavour enabled.
+
+.. note:
+   The ``flavour`` template variable is only available if you have setup the
+   ``django_mobile.context_processors.flavour`` context processor and used
+   django's ``RequestContext`` as context instance to render the template.
+
 
 Customization
 =============
