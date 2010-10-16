@@ -1,4 +1,5 @@
 import threading
+from django.core.exceptions import ImproperlyConfigured
 from django_mobile.conf import settings
 
 
@@ -6,11 +7,21 @@ _local = threading.local()
 
 
 def get_flavour(request=None, default=None):
+    flavour = None
     request = request or getattr(_local, 'request', None)
-    flavour = getattr(request, 'flavour', None)
-    if flavour is None:
-        flavour = getattr(_local, 'flavour', None)
-    return flavour or default or settings.FLAVOURS[0]
+    # get flavour from session if enabled
+    if request and settings.FLAVOURS_SESSION_KEY:
+        flavour = request.session.get(settings.FLAVOURS_SESSION_KEY, None)
+    # check if flavour is set on request
+    if not flavour and hasattr(request, 'flavour'):
+        flavour = request.flavour
+    # if set out of a request-response cycle its stored on the thread local
+    if not flavour:
+        flavour = getattr(_local, 'flavour', default)
+    # if something went wrong we return the very default flavour
+    if flavour not in settings.FLAVOURS:
+        flavour = settings.FLAVOURS[0]
+    return flavour
 
 
 def set_flavour(flavour, request=None, permanent=True):
@@ -23,6 +34,10 @@ def set_flavour(flavour, request=None, permanent=True):
     if request:
         request.flavour = flavour
         if permanent:
+            if not settings.FLAVOURS_SESSION_KEY:
+                raise ImproperlyConfigured(
+                    u"You must specify the FLAVOURS_SESSION_KEY setting to "
+                    u"use the 'permanent' parameter.")
             request.session[settings.FLAVOURS_SESSION_KEY] = flavour
     _local.flavour = flavour
 

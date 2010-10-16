@@ -13,7 +13,6 @@ class SetFlavourMiddleware(object):
                 set_flavour(flavour, permanent=True)
                 return
 
-        flavour = request.session.get(settings.FLAVOURS_SESSION_KEY, None)
         if flavour not in settings.FLAVOURS:
             flavour = get_flavour()
         set_flavour(flavour)
