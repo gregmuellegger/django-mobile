@@ -3,7 +3,7 @@ from django_mobile import set_flavour, get_flavour, _set_request
 from django_mobile.conf import settings
 
 
-class SwitchFlavourMiddleware(object):
+class SetFlavourMiddleware(object):
     def process_request(self, request):
         _set_request(request)
 

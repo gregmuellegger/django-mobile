@@ -36,7 +36,7 @@ is enabled and working.
 3. Add ``django_mobile.middleware.MobileDetectionMiddleware`` to your
 ``MIDDLEWARE_CLASSES`` setting.
 
-4. Add ``django_mobile.middleware.SwitchFlavourMiddleware`` to your
+4. Add ``django_mobile.middleware.SetFlavourMiddleware`` to your
 ``MIDDLEWARE_CLASSES`` setting. Make sure it's listed *after*
 ``MobileDetectionMiddleware`` and also after ``SessionMiddleware``.
 
