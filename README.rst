@@ -157,7 +157,7 @@ FLAVOURS
 
 A list of available flavours for your site.
 
-***Default:*** ``('full', 'mobile')``
+**Default:** ``('full', 'mobile')``
 
 DEFAULT_MOBILE_FLAVOUR
 ^^^^^^^^^^^^^^^^^^^^^^
@@ -165,7 +165,7 @@ DEFAULT_MOBILE_FLAVOUR
 The flavour which is chosen if the built-in ``MobileDetectionMiddleware``
 detects a mobile browser.
 
-***Default:*** ``mobile``
+**Default:** ``mobile``
 
 FLAVOURS_TEMPLATE_DIRS_PREFIX
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -189,7 +189,7 @@ them in a common subdirectory. Example::
     set_flavour('mobile')
     render_to_string('index.html') # will render 'flavours/mobile/index.html'
 
-***Default:*** ``''`` (empty string)
+**Default:** ``''`` (empty string)
 
 FLAVOURS_GET_PARAMETER
 ^^^^^^^^^^^^^^^^^^^^^^
@@ -197,7 +197,7 @@ FLAVOURS_GET_PARAMETER
 Users can change the flavour they want to look at with a HTTP GET parameter.
 This determines the name of this parameter.
 
-***Default:*** ``'flavour'``
+**Default:** ``'flavour'``
 
 FLAVOURS_SESSION_KEY
 ^^^^^^^^^^^^^^^^^^^^
@@ -206,4 +206,4 @@ The user's preference set with the GET parameter is stored in the user's
 session. This setting determines which session key is used to hold this
 information.
 
-***Default:*** ``'flavour'``
+**Default:** ``'flavour'``
