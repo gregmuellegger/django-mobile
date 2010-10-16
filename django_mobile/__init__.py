@@ -5,16 +5,12 @@ from django_mobile.conf import settings
 _local = threading.local()
 
 
-def get_default_flavour(request):
-    if getattr(request, 'is_mobile', False):
-        return settings.DEFAULT_MOBILE_FLAVOUR
-    return settings.FLAVOURS[0]
-
-
 def get_flavour(request=None, default=None):
-    if default is None:
-        default = settings.FLAVOURS[0]
-    return getattr(_local, 'flavour', default)
+    request = request or getattr(_local, 'request', None)
+    flavour = getattr(request, 'flavour', None)
+    if flavour is None:
+        flavour = getattr(_local, 'flavour', None)
+    return flavour or default or settings.FLAVOURS[0]
 
 
 def set_flavour(flavour):
@@ -23,4 +19,10 @@ def set_flavour(flavour):
             u"'%r' is no valid flavour. Allowed flavours are: %s" % (
                 flavour,
                 ', '.join(settings.FLAVOURS),))
+    if hasattr(_local, 'request'):
+        _local.request.flavour = flavour
     _local.flavour = flavour
+
+
+def _set_request(request):
+    _local.request = request

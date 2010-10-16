@@ -2,7 +2,7 @@ from django.template import TemplateDoesNotExist
 from django.template.loaders import filesystem
 from django.test import TestCase
 from mock import Mock, patch
-from django_mobile import get_flavour, set_flavour, get_default_flavour
+from django_mobile import get_flavour, set_flavour
 from django_mobile.conf import settings
 
 
@@ -14,13 +14,6 @@ class BasicTests(TestCase):
         self.assertEqual(get_flavour(), 'mobile')
 
         self.assertRaises(ValueError, set_flavour, 'spam')
-
-    def test_get_default_flavour(self):
-        request = Mock()
-        request.is_mobile = False
-        self.assertEqual(get_default_flavour(request), settings.FLAVOURS[0])
-        request.is_mobile = True
-        self.assertEqual(get_default_flavour(request), settings.DEFAULT_MOBILE_FLAVOUR)
 
 
 class TemplateLoaderTests(TestCase):

@@ -1,19 +1,20 @@
 import re
-from django_mobile import set_flavour, get_default_flavour
+from django_mobile import set_flavour, get_flavour, _set_request
 from django_mobile.conf import settings
 
 
 class SwitchFlavourMiddleware(object):
     def process_request(self, request):
+        _set_request(request)
+
         if settings.FLAVOURS_GET_PARAMETER in request.GET:
             request.session[settings.FLAVOURS_SESSION_KEY] = \
                 request.GET[settings.FLAVOURS_GET_PARAMETER]
 
         flavour = request.session.get(settings.FLAVOURS_SESSION_KEY, None)
         if flavour not in settings.FLAVOURS:
-            flavour = get_default_flavour(request)
+            flavour = get_flavour()
         set_flavour(flavour)
-        request.flavour = flavour
 
 
 class MobileDetectionMiddleware(object):
@@ -64,4 +65,5 @@ class MobileDetectionMiddleware(object):
                 if self.user_agents_test_match_regex.match(user_agent):
                     is_mobile = True
 
-        request.is_mobile = is_mobile
+        if is_mobile:
+            set_flavour(settings.DEFAULT_MOBILE_FLAVOUR)
