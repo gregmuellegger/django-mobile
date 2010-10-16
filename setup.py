@@ -31,9 +31,9 @@ long_description = UltraMagicString(u'\n\n'.join((
 
 
 setup(
-    name = 'django-appname',
+    name = 'django-mobile',
     version = '0.1.0pre',
-    url = 'https://github.com/gregmuellegger/django-appname',
+    url = 'https://github.com/gregmuellegger/django-mobile',
     license = 'BSD',
     description = '',
     long_description = long_description,
@@ -50,7 +50,7 @@ setup(
         'Programming Language :: Python',
     ],
     packages = [
-        'appname',
+        'django_mobile',
     ],
     install_requires = ['setuptools'],
     test_suite = 'runtests.runtests',

@@ -37,7 +37,7 @@ USE_I18N = True
 
 # Absolute path to the directory that holds media.
 # Example: "/home/media/media.lawrence.com/"
-MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'appname_tests', 'media')
+MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'django_mobile_tests', 'media')
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash if there is a path component (optional in other cases).
@@ -66,10 +66,10 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.doc.XViewMiddleware',
 )
 
-ROOT_URLCONF = 'appname_tests.urls'
+ROOT_URLCONF = 'django_mobile_tests.urls'
 
 TEMPLATE_DIRS = (
-    os.path.join(PROJECT_ROOT, 'appname_tests', 'templates'),
+    os.path.join(PROJECT_ROOT, 'django_mobile_tests', 'templates'),
 )
 
 INSTALLED_APPS = (
@@ -80,8 +80,8 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django_extensions',
 
-    'appname',
-    'appname_tests',
+    'django_mobile',
+    'django_mobile_tests',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (

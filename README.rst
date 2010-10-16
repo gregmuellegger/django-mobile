@@ -1,2 +1,2 @@
-django-appname
-==============
+django-mobile
+=============

@@ -12,8 +12,8 @@ from django.test.simple import run_tests
 def runtests(*args):
     failures = run_tests(
         args or [
-            'appname',
-            'appname_tests',
+            'django_mobile',
+            'django_mobile_tests',
         ],
         verbosity=1, interactive=True)
     sys.exit(failures)
