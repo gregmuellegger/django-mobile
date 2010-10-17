@@ -3,7 +3,7 @@ from django.conf import settings as django_settings
 from django.template import TemplateDoesNotExist
 from django.template.loaders import app_directories, filesystem
 from django.test import TestCase
-from mock import Mock, patch
+from mock import MagicMock, Mock, patch
 from django_mobile import get_flavour, set_flavour
 from django_mobile.conf import settings
 from django_mobile.middleware import MobileDetectionMiddleware, \
@@ -27,14 +27,24 @@ class BaseTestCase(TestCase):
         _reset()
 
 
-class BasicTests(BaseTestCase):
+class BasicFunctionTests(BaseTestCase):
     def test_set_flavour(self):
         set_flavour('full')
         self.assertEqual(get_flavour(), 'full')
         set_flavour('mobile')
         self.assertEqual(get_flavour(), 'mobile')
-
         self.assertRaises(ValueError, set_flavour, 'spam')
+
+    def test_set_flavour_permanent(self):
+        request = Mock()
+        request.session = MagicMock()
+
+        set_flavour('mobile', request=request)
+        self.assertEqual(request.session.__setitem__.call_args, None)
+        set_flavour('mobile', request=request, permanent=True)
+        self.assertEqual(
+            request.session.__setitem__.call_args,
+            ((settings.FLAVOURS_SESSION_KEY, 'mobile',), {}))
 
 
 class TemplateLoaderTests(BaseTestCase):
