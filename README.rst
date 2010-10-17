@@ -52,22 +52,21 @@ Usage
 .. _flavours:
 
 The concept of **django-mobile** is build around the ideas of different
-*flavours* of your site. For example the *mobile* version is described as
-one possible *flavour* of your site.
+*flavours* for your site. For example the *mobile* version is described as
+one possible *flavour*, the desktop version as another.
 
-This makes it possible to provide many possible *flavours* instead of just
-differentiating between a full desktop experience and one mobile version. You
+This makes it possible to provide many possible designs instead of just
+differentiating between a full desktop experience and one mobile version.  You
 can make multiple mobile flavours available e.g. one for mobile safari on the
 iPhone and Android as well as one for Opera and an extra one for the internet
 tablets like the iPad.
 
-.. note:
-    By default **django-mobile** only distinguish between the flavours
-    *full* and *mobile*.
+*Note:* By default **django-mobile** only distinguishes between *full* and
+*mobile* flavour.
 
 After the correct flavour is somehow chosen by the middlewares, it's
 assigned to the ``request.flavour`` attribute. You can use this in your views
-to provide separate logic for each flavour.
+to provide separate logic.
 
 This flavour is then use to transparently choose custom templates for this
 special flavour. The selected template will have the current flavour prefixed
@@ -91,7 +90,7 @@ only change small aspects of a single template. A short example::
     </html>
 
 This will add ``(mobile version)`` to the title of your site if viewed with
-the *mobile* flavour enabled.
+the mobile flavour enabled.
 
 .. note:
    The ``flavour`` template variable is only available if you have set up the
@@ -105,18 +104,18 @@ The basic use case of **django-mobile** is obviously to serve a mobile version
 of your site to users. The selection of the correct flavour is usually already
 done in the middlewares when your own views are called. In some cases you want
 to change the currently used flavour in your view or somewhere else. You can
-do this by simply calling ``django_method.set_flavour(flavour[,
+do this by simply calling ``django_mobile.set_flavour(flavour[,
 permanent=True])``. The first argument is self explaining. But keep in mind
 that you only can pass in a flavour that you is also in your ``FLAVOURS``
 setting. Otherwise ``set_flavour`` will raise a ``ValueError``. The optional
 ``permanent`` parameters defines if the change of the flavour is remember for
 future requests of the same client.
 
-Your users can set their desired flavour themself. They just need to specify
+Your users can set their desired flavour them self. They just need to specify
 the ``flavour`` GET parameter on a request to your site. This will permanently
 choose this flavour as their preference to view the site.
 
-You can use this GET paremeter to let the user select from your available
+You can use this GET parameter to let the user select from your available
 flavours::
 
     <ul>
@@ -132,7 +131,7 @@ Customization
 .. _customization:
 
 There are some points available that let you customize the behaviour of
-**django-mobile**. Here are some points listed:
+**django-mobile**. Here are some possibilities listed:
 
 ``MobileDetectionMiddleware``
 -----------------------------
@@ -171,10 +170,9 @@ FLAVOURS_TEMPLATE_DIRS_PREFIX
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 This string will be prefixed to the template names when searching for
-flavoured templates. This is useful if have many flavours and want to store
-them in a common subdirectory. Example::
+flavoured templates. This is useful if you have many flavours and want to
+store them in a common subdirectory. Example::
 
-    from django.conf import settings
     from django.template.loader import render_to_string
     from django_mobile import set_flavour
 
@@ -195,7 +193,7 @@ FLAVOURS_GET_PARAMETER
 ^^^^^^^^^^^^^^^^^^^^^^
 
 Users can change the flavour they want to look at with a HTTP GET parameter.
-This determines the name of this parameter.
+This determines the name of this parameter.  Set it to ``None`` to disable.
 
 **Default:** ``'flavour'``
 
