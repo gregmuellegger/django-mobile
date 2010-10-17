@@ -53,6 +53,7 @@ setup(
         'django_mobile',
     ],
     install_requires = ['setuptools'],
+    tests_require = ['mock'],
     test_suite = 'runtests.runtests',
 )
 
