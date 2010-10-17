@@ -92,10 +92,9 @@ only change small aspects of a single template. A short example::
 This will add ``(mobile version)`` to the title of your site if viewed with
 the mobile flavour enabled.
 
-.. note:
-   The ``flavour`` template variable is only available if you have set up the
-   ``django_mobile.context_processors.flavour`` context processor and used
-   django's ``RequestContext`` as context instance to render the template.
+*Note:* The ``flavour`` template variable is only available if you have set up the
+``django_mobile.context_processors.flavour`` context processor and used
+django's ``RequestContext`` as context instance to render the template.
 
 Changing the current flavour
 ----------------------------
