@@ -231,6 +231,16 @@ store them in a common subdirectory. Example::
 
 **Default:** ``''`` (empty string)
 
+FLAVOURS_TEMPLATE_LOADERS
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**django-mobile**'s template loader can load templates prefixed with the
+current flavour. Specify with this setting which loaders are used to load
+flavoured templates.
+
+**Default:** same as ``TEMPLATE_LOADERS`` setting but without
+``'django_mobile.loader.Loader'``.
+
 FLAVOURS_GET_PARAMETER
 ^^^^^^^^^^^^^^^^^^^^^^
 
