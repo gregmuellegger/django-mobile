@@ -208,8 +208,8 @@ detects a mobile browser.
 
 **Default:** ``mobile``
 
-FLAVOURS_TEMPLATE_DIRS_PREFIX
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FLAVOURS_TEMPLATE_PREFIX
+^^^^^^^^^^^^^^^^^^^^^^^^
 
 This string will be prefixed to the template names when searching for
 flavoured templates. This is useful if you have many flavours and want to
@@ -222,7 +222,7 @@ store them in a common subdirectory. Example::
     render_to_string('index.html') # will render 'mobile/index.html'
 
     # now add this to settings.py
-    FLAVOURS_TEMPLATE_DIRS_PREFIX = 'flavours/'
+    FLAVOURS_TEMPLATE_PREFIX = 'flavours/'
 
     # and try again
 

@@ -24,7 +24,7 @@ def get_flavour(request=None, default=None):
     return flavour
 
 
-def set_flavour(flavour, request=None, permanent=True):
+def set_flavour(flavour, request=None, permanent=False):
     if flavour not in settings.FLAVOURS:
         raise ValueError(
             u"'%r' is no valid flavour. Allowed flavours are: %s" % (
@@ -39,6 +39,9 @@ def set_flavour(flavour, request=None, permanent=True):
                     u"You must specify the FLAVOURS_SESSION_KEY setting to "
                     u"use the 'permanent' parameter.")
             request.session[settings.FLAVOURS_SESSION_KEY] = flavour
+    elif permanent:
+        raise ValueError(
+            u'Cannot set flavour permanently, no request available.')
     _local.flavour = flavour
 
 

@@ -21,7 +21,7 @@ class SettingsProxy(object):
 class defaults(object):
     FLAVOURS = (u'full', u'mobile',)
     DEFAULT_MOBILE_FLAVOUR = u'mobile'
-    FLAVOURS_TEMPLATE_DIRS_PREFIX = u''
+    FLAVOURS_TEMPLATE_PREFIX = u''
     FLAVOURS_GET_PARAMETER = u'flavour'
     FLAVOURS_SESSION_KEY = u'flavour'
 
