@@ -32,7 +32,7 @@ long_description = UltraMagicString(u'\n\n'.join((
 
 setup(
     name = 'django-mobile',
-    version = '0.1.0pre',
+    version = '0.1.0',
     url = 'https://github.com/gregmuellegger/django-mobile',
     license = 'BSD',
     description = '',
