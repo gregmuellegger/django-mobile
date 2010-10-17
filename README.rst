@@ -125,6 +125,48 @@ flavours::
     </ul>
 
 
+Reference
+=========
+
+``django_mobile.get_flavour([request,] [default])``
+
+    Get the currently active flavour. If no flavour can be determined it will
+    return *default*. This can happen if ``set_flavour`` was not called before
+    in the current request-response cycle. *default* defaults to the first
+    item in the ``FLAVOURS`` setting.
+
+``django_mobile.set_flavour(flavour, [request,] [permanent])``
+
+    Set the *flavour* to be used for *request*. This will raise ``ValueError``
+    if *flavour* is not in the ``FLAVOURS`` setting. You can try to set the
+    flavour permanently for *request* by passing ``permanent=True``. This may
+    fail if you are out of a request-response cycle. *request* defaults to the
+    currently active request.
+
+``django_mobile.context_processors.flavour``
+
+    Context processor that adds the current flavour as *flavour* to the
+    context.
+
+``django_mobile.context_processors.is_mobile``
+
+    This context processor will add a *is_mobile* variable to the context
+    which is ``True`` if the current flavour equals the
+    ``DEFAULT_MOBILE_FLAVOUR`` setting.
+
+``django_mobile.middlewares.SetFlavourMiddleware``
+
+    Takes care of loading the stored flavour from the user's session if set.
+    Also sets the current request to a thread-local variable. This is needed
+    to provide ``get_flavour()`` functionality without having access to the
+    request object.
+
+``django_mobile.middlewares.MobileDetectionMiddleware``
+
+    Detects if a mobile browser tries to access the site and sets the flavour
+    to ``DEFAULT_MOBILE_FLAVOUR`` settings value in case.
+
+
 Customization
 =============
 
@@ -138,8 +180,8 @@ There are some points available that let you customize the behaviour of
 
 The built-in middleware to detect if the user is using a mobile browser served
 well in production but is far from perfect and also implemented in a very
-simplistic way. You can safely remove this middleware from your settings and add
-your own version instead. Just make sure that it calls
+simplistic way. You can safely remove this middleware from your settings and
+add your own version instead. Just make sure that it calls
 ``django_mobile.set_flavour`` at some point to set the correct flavour for
 you.
 
