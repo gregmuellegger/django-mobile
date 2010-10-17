@@ -35,7 +35,7 @@ setup(
     version = '0.1.0',
     url = 'https://github.com/gregmuellegger/django-mobile',
     license = 'BSD',
-    description = '',
+    description = u'Detect mobile browsers and serve different template flavours to them.',
     long_description = long_description,
     author = UltraMagicString('Gregor Müllegger'),
     author_email = 'gregor@muellegger.de',
