@@ -1,6 +1,6 @@
 import threading
 from django.conf import settings as django_settings
-from django.template import TemplateDoesNotExist
+from django.template import RequestContext, TemplateDoesNotExist
 from django.template.loaders import app_directories, filesystem
 from django.test import TestCase
 from mock import MagicMock, Mock, patch
@@ -48,23 +48,6 @@ class BasicFunctionTests(BaseTestCase):
 
 
 class TemplateLoaderTests(BaseTestCase):
-    def setUp(self):
-        super(TemplateLoaderTests, self).setUp()
-        self.original_TEMPLATE_LOADERS = settings.TEMPLATE_LOADERS
-        self.original_FLAVOURS_TEMPLATE_LOADERS = settings.FLAVOURS_TEMPLATE_LOADERS
-        django_settings.TEMPLATE_LOADERS = (
-            'django_mobile.loader.Loader',
-        )
-        django_settings.FLAVOURS_TEMPLATE_LOADERS = (
-            'django.template.loaders.filesystem.load_template_source',
-            'django.template.loaders.app_directories.load_template_source',
-        )
-
-    def tearDown(self):
-        super(TemplateLoaderTests, self).tearDown()
-        django_settings.TEMPLATE_LOADERS = self.original_TEMPLATE_LOADERS
-        django_settings.FLAVOURS_TEMPLATE_LOADERS = self.original_FLAVOURS_TEMPLATE_LOADERS
-
     @patch.object(app_directories.Loader, 'load_template_source')
     @patch.object(filesystem.Loader, 'load_template_source')
     def test_loader_on_filesystem(self, filesystem_loader, app_directories_loader):
@@ -89,6 +72,21 @@ class TemplateLoaderTests(BaseTestCase):
             pass
         self.assertEqual(filesystem_loader.call_args[0][0], 'full/base.html')
         self.assertEqual(app_directories_loader.call_args[0][0], 'full/base.html')
+
+    def test_functional(self):
+        from django.template.loader import render_to_string
+        set_flavour('full')
+        result = render_to_string('index.html')
+        result = result.strip()
+        self.assertEqual(result, 'Hello .')
+        # simulate RequestContext
+        result = render_to_string('index.html', context_instance=RequestContext(Mock()))
+        result = result.strip()
+        self.assertEqual(result, 'Hello full.')
+        set_flavour('mobile')
+        result = render_to_string('index.html')
+        result = result.strip()
+        self.assertEqual(result, 'Mobile!')
 
 
 class MobileDetectionMiddlewareTests(BaseTestCase):

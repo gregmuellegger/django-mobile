@@ -5,6 +5,8 @@ from django_mobile.conf import settings
 
 
 class Loader(BaseLoader):
+    is_usable = True
+
     def __init__(self, *args, **kwargs):
         loaders = []
         for loader_name in settings.FLAVOURS_TEMPLATE_LOADERS:
