@@ -1,6 +1,11 @@
 Changlog
 ========
 
+0.1.2
+-----
+
+* Fixed unreferenced variable error in ``SetFlavourMiddleware``.
+
 0.1.1
 -----
 

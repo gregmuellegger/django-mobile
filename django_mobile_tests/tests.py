@@ -112,6 +112,14 @@ class MobileDetectionMiddlewareTests(BaseTestCase):
 
 
 class SetFlavourMiddlewareTests(BaseTestCase):
+    def test_set_default_flavour(self):
+        request = Mock()
+        request.GET = {}
+        middleware = SetFlavourMiddleware()
+        middleware.process_request(request)
+        # default flavour is set
+        self.assertEqual(get_flavour(), 'full')
+
     @patch('django_mobile.middleware.set_flavour')
     def test_set_flavour_through_get_parameter(self, set_flavour):
         request = Mock()

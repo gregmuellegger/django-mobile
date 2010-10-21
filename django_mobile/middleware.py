@@ -11,11 +11,6 @@ class SetFlavourMiddleware(object):
             flavour = request.GET[settings.FLAVOURS_GET_PARAMETER]
             if flavour in settings.FLAVOURS:
                 set_flavour(flavour, permanent=True)
-                return
-
-        if flavour not in settings.FLAVOURS:
-            flavour = get_flavour()
-        set_flavour(flavour)
 
 
 class MobileDetectionMiddleware(object):
