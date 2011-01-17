@@ -45,5 +45,11 @@ def set_flavour(flavour, request=None, permanent=False):
     _local.flavour = flavour
 
 
-def _set_request(request):
+def _init_flavour(request):
+    global _local
+    _local = threading.local()
     _local.request = request
+    if hasattr(request, 'flavour'):
+        _local.flavour = request.flavour
+    if not hasattr(_local, 'flavour'):
+        _local.flavour = settings.FLAVOURS[0]
