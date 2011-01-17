@@ -1,6 +1,13 @@
 Changlog
 ========
 
+0.1.3
+-----
+
+* Fixed issue with ``runserver`` command that didn't handled all request
+  independed from each other. Thanks to bclermont and Frédéric Roland for the
+  report.
+
 0.1.2
 -----
 
