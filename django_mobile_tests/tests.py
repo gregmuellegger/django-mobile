@@ -2,7 +2,7 @@ import threading
 from django.conf import settings as django_settings
 from django.template import RequestContext, TemplateDoesNotExist
 from django.template.loaders import app_directories, filesystem
-from django.test import TestCase
+from django.test import Client, TestCase
 from mock import MagicMock, Mock, patch
 from django_mobile import get_flavour, set_flavour
 from django_mobile.conf import settings
@@ -127,3 +127,22 @@ class SetFlavourMiddlewareTests(BaseTestCase):
         middleware = SetFlavourMiddleware()
         middleware.process_request(request)
         self.assertEqual(set_flavour.call_args, (('mobile',), {'permanent': True}))
+
+
+class RegressionTests(BaseTestCase):
+    def test_multiple_browser_access(self):
+        '''
+        Regression test of isseu #2
+        '''
+        desktop = Client()
+        # wap triggers mobile behaviour
+        mobile = Client(HTTP_USER_AGENT='wap')
+
+        response = desktop.get('/')
+        self.assertEqual(response.content.strip(), 'Hello full.')
+
+        response = mobile.get('/')
+        self.assertEqual(response.content.strip(), 'Mobile!')
+
+        response = desktop.get('/')
+        self.assertEqual(response.content.strip(), 'Hello full.')
