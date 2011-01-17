@@ -126,7 +126,8 @@ class SetFlavourMiddlewareTests(BaseTestCase):
         request.GET = {'flavour': 'mobile'}
         middleware = SetFlavourMiddleware()
         middleware.process_request(request)
-        self.assertEqual(set_flavour.call_args, (('mobile',), {'permanent': True}))
+        self.assertEqual(set_flavour.call_args[0][0], 'mobile')
+        self.assertEqual(set_flavour.call_args[1]['permanent'], True)
 
 
 class RegressionTests(BaseTestCase):

@@ -10,7 +10,7 @@ class SetFlavourMiddleware(object):
         if settings.FLAVOURS_GET_PARAMETER in request.GET:
             flavour = request.GET[settings.FLAVOURS_GET_PARAMETER]
             if flavour in settings.FLAVOURS:
-                set_flavour(flavour, permanent=True)
+                set_flavour(flavour, request, permanent=True)
 
 
 class MobileDetectionMiddleware(object):
