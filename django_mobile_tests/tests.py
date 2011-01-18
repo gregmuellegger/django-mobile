@@ -98,7 +98,7 @@ class MobileDetectionMiddlewareTests(BaseTestCase):
         }
         middleware = MobileDetectionMiddleware()
         middleware.process_request(request)
-        self.assertEqual(set_flavour.call_args, (('mobile',), {}))
+        self.assertEqual(set_flavour.call_args, (('mobile', request), {}))
 
     @patch('django_mobile.middleware.set_flavour')
     def test_desktop_browser_agent(self, set_flavour):
@@ -126,8 +126,8 @@ class SetFlavourMiddlewareTests(BaseTestCase):
         request.GET = {'flavour': 'mobile'}
         middleware = SetFlavourMiddleware()
         middleware.process_request(request)
-        self.assertEqual(set_flavour.call_args[0][0], 'mobile')
-        self.assertEqual(set_flavour.call_args[1]['permanent'], True)
+        self.assertEqual(set_flavour.call_args,
+            (('mobile', request), {'permanent': True}))
 
 
 class RegressionTests(BaseTestCase):
