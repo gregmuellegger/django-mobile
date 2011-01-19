@@ -1,6 +1,13 @@
 Changlog
 ========
 
+0.1.4
+-----
+
+* Fixed issue in template loader that only implemented
+  ``load_template_source`` but no ``load_template``. Thanks to tylanpince,
+  rwilcox and Frédéric Roland for the report.
+
 0.1.3
 -----
 
