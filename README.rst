@@ -178,14 +178,14 @@ Reference
     which is ``True`` if the current flavour equals the
     ``DEFAULT_MOBILE_FLAVOUR`` setting.
 
-``django_mobile.middlewares.SetFlavourMiddleware``
+``django_mobile.middleware.SetFlavourMiddleware``
 
     Takes care of loading the stored flavour from the user's session if set.
     Also sets the current request to a thread-local variable. This is needed
     to provide ``get_flavour()`` functionality without having access to the
     request object.
 
-``django_mobile.middlewares.MobileDetectionMiddleware``
+``django_mobile.middleware.MobileDetectionMiddleware``
 
     Detects if a mobile browser tries to access the site and sets the flavour
     to ``DEFAULT_MOBILE_FLAVOUR`` settings value in case.
