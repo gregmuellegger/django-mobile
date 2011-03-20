@@ -8,6 +8,15 @@ Changlog
   top-level directory. This resolves module-name conflicts when installing
   with pip's -e option. Thanks to *bendavis78* for the report.
 
+* Added a ``cache_page`` decorator that emulates django's ``cache_page`` but
+  takes flavours into account. The caching system would otherwise cache the
+  flavour that is currently active when a cache miss occurs. Thanks to
+  *itmustbejj* for the report.
+
+* Added a ``CacheFlavourMiddleware`` that makes django's caching middlewares
+  aware of flavours. We use interally the ``Vary`` response header and the
+  ``X-Flavour`` request header.
+
 0.1.4
 -----
 

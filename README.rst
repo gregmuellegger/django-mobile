@@ -123,6 +123,31 @@ flavours::
         <li><a href="?flavour=ipad">View our iPad version</a>
     </ul>
 
+Notes on caching
+----------------
+
+.. _caching:
+
+Django is shipping with some convenience methods to easily cache your views.
+One of them is ``django.views.decorators.cache.cache_page``. The problem with
+caching a whole page in conjunction with **django-mobile** is, that django's
+caching system is not aware of flavours. This means that if the first request
+to a page is served with a mobile flavour, the second request might also
+get a page rendered with the mobile flavour from the cache -- even if the
+second one was requested by a desktop browser.
+
+**django-mobile** is shipping with it's own implementation of ``cache_page``
+to resolve this issue. Please use ``django_mobile.cache.cache_page`` instead
+of django's own ``cache_page`` decorator.
+
+You can also use django's caching middlewares
+``django.middleware.cache.UpdateCacheMiddleware`` and
+``FetchFromCacheMiddleware`` like you already do. But to make them aware of
+flavours, you need to add
+``django_mobile.cache.middleware.CacheFlavourMiddleware`` as second last item
+in the ``MIDDLEWARE_CLASSES`` settings, right before
+``FetchFromCacheMiddleware``.
+
 
 Reference
 =========
@@ -164,6 +189,21 @@ Reference
 
     Detects if a mobile browser tries to access the site and sets the flavour
     to ``DEFAULT_MOBILE_FLAVOUR`` settings value in case.
+
+``django_mobile.cache.cache_page``
+
+    Same as django's ``cache_page`` decorator but applies ``vary_on_flavour``
+    before the view is decorated with
+    ``django.views.decorators.cache.cache_page``.
+
+``django_mobile.cache.vary_on_flavour``
+
+    A decorator created from the ``CacheFlavourMiddleware`` middleware.
+
+``django_mobile.cache.middleware.CacheFlavourMiddleware``
+
+    Adds ``X-Flavour`` header to ``request.META`` in ``process_request`` and
+    adds this header to ``response['Vary']`` in ``process_response``.
 
 
 Customization

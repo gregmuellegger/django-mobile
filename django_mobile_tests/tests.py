@@ -139,6 +139,7 @@ class MobileDetectionMiddlewareTests(BaseTestCase):
 class SetFlavourMiddlewareTests(BaseTestCase):
     def test_set_default_flavour(self):
         request = Mock()
+        request.META = MagicMock()
         request.GET = {}
         middleware = SetFlavourMiddleware()
         middleware.process_request(request)
@@ -148,6 +149,7 @@ class SetFlavourMiddlewareTests(BaseTestCase):
     @patch('django_mobile.middleware.set_flavour')
     def test_set_flavour_through_get_parameter(self, set_flavour):
         request = Mock()
+        request.META = MagicMock()
         request.GET = {'flavour': 'mobile'}
         middleware = SetFlavourMiddleware()
         middleware.process_request(request)
@@ -156,19 +158,36 @@ class SetFlavourMiddlewareTests(BaseTestCase):
 
 
 class RegressionTests(BaseTestCase):
+    def setUp(self):
+        self.desktop = Client()
+        # wap triggers mobile behaviour
+        self.mobile = Client(HTTP_USER_AGENT='wap')
+
     def test_multiple_browser_access(self):
         '''
-        Regression test of isseu #2
+        Regression test of issue #2
         '''
-        desktop = Client()
-        # wap triggers mobile behaviour
-        mobile = Client(HTTP_USER_AGENT='wap')
-
-        response = desktop.get('/')
+        response = self.desktop.get('/')
         self.assertEqual(response.content.strip(), 'Hello full.')
 
-        response = mobile.get('/')
+        response = self.mobile.get('/')
         self.assertEqual(response.content.strip(), 'Mobile!')
 
-        response = desktop.get('/')
+        response = self.desktop.get('/')
+        self.assertEqual(response.content.strip(), 'Hello full.')
+
+        response = self.mobile.get('/')
+        self.assertEqual(response.content.strip(), 'Mobile!')
+
+    def test_cache_page_decorator(self):
+        response = self.mobile.get('/cached/')
+        self.assertEqual(response.content.strip(), 'Mobile!')
+
+        response = self.desktop.get('/cached/')
+        self.assertEqual(response.content.strip(), 'Hello full.')
+
+        response = self.mobile.get('/cached/')
+        self.assertEqual(response.content.strip(), 'Mobile!')
+
+        response = self.desktop.get('/cached/')
         self.assertEqual(response.content.strip(), 'Hello full.')

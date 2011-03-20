@@ -45,6 +45,10 @@ def set_flavour(flavour, request=None, permanent=False):
     _local.flavour = flavour
 
 
+def _set_request_header(request, flavour):
+    request.META['HTTP_X_FLAVOUR'] = flavour
+
+
 def _init_flavour(request):
     global _local
     _local = threading.local()
