@@ -1,6 +1,13 @@
 Changlog
 ========
 
+0.1.5
+-----
+
+* Restructured project layout to remove settings.py and manage.py from
+  top-level directory. This resolves module-name conflicts when installing
+  with pip's -e option. Thanks to *bendavis78* for the report.
+
 0.1.4
 -----
 

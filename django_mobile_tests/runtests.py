@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 import os, sys
 
-os.environ['DJANGO_SETTINGS_MODULE'] = 'settings'
-parent = os.path.dirname(os.path.abspath(__file__))
+os.environ['DJANGO_SETTINGS_MODULE'] = 'django_mobile_tests.settings'
+parent = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 sys.path.insert(0, parent)
 
