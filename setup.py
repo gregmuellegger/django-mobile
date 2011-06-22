@@ -34,7 +34,7 @@ long_description = UltraMagicString(long_description)
 
 setup(
     name = 'django-mobile',
-    version = '0.2.0',
+    version = '0.2.1',
     url = 'https://github.com/gregmuellegger/django-mobile',
     license = 'BSD',
     description = u'Detect mobile browsers and serve different template flavours to them.',
@@ -53,6 +53,7 @@ setup(
     ],
     packages = [
         'django_mobile',
+        'django_mobile.cache',
     ],
     install_requires = ['setuptools'],
     tests_require = ['mock'],

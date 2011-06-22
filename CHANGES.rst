@@ -1,6 +1,12 @@
 Changlog
 ========
 
+0.2.1
+-----
+
+* Fixed packing issues that didn't include the django_mobile.cache package.
+  Thanks to *Scott Turnbull* for the report.
+
 0.2.0
 -----
 
