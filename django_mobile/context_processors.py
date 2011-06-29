@@ -1,10 +1,15 @@
-from django_mobile import get_flavour
+from django_mobile import get_flavour,get_device_name
 from django_mobile.conf import settings
 
 
 def flavour(request):
     return {
         'flavour': get_flavour(),
+    }
+
+def get_device(request):
+	return {
+        'device_info': get_device_name(),
     }
 
 

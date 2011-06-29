@@ -31,7 +31,8 @@ class MobileDetectionMiddleware(object):
         "wapi", "wapp", "wapr", "webc", "winw", "winw",
         "xda-",)
     user_agents_test_search = "(?:up.browser|up.link|mmp|symbian|smartphone|midp|wap|phone|windows ce|pda|mobile|mini|palm|netfront)"
-    http_accept_regex = re.compile("application/vnd\.wap\.xhtml\+xml", re.IGNORECASE)
+    http_accept_regex 		= re.compile("application/vnd\.wap\.xhtml\+xml", re.IGNORECASE)
+    platforms				= ( "iPhone", "Android", "webOS", "BlackBerry","Symbian", "Windows Phone" )
 
     def __init__(self):
         user_agents_test_match = r'^(?:%s)' % '|'.join(self.user_agents_test_match)
@@ -41,7 +42,7 @@ class MobileDetectionMiddleware(object):
     def process_request(self, request):
         is_mobile = False
 
-        if request.META.has_key('HTTP_USER_AGENT'):
+        if request.META.has_key('HTTP_USER_AGENT') and not request.session.has_key(settings.FLAVOURS_SESSION_KEY):
             user_agent = request.META['HTTP_USER_AGENT']
 
             # Test common mobile values.
@@ -63,3 +64,11 @@ class MobileDetectionMiddleware(object):
 
         if is_mobile:
             set_flavour(settings.DEFAULT_MOBILE_FLAVOUR, request)
+            
+            request.session[settings.FLAVOURS_SESSION_KEY + "_mobile_agent"] = "Nothing"
+            
+            for agent in self.platforms:
+                if agent in request.META['HTTP_USER_AGENT']:
+                    request.session[settings.FLAVOURS_SESSION_KEY + "_mobile_agent"] = agent
+                    break ##stop this loop, we found a match
+            
