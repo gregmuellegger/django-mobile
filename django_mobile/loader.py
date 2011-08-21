@@ -23,12 +23,15 @@ class Loader(BaseLoader):
         return template_name
 
     def load_template(self, template_name, template_dirs=None):
-        template_name = self.prepare_template_name(template_name)
+        template_name_converted = self.prepare_template_name(template_name)
         for loader in self.template_source_loaders:
             try:
-                return loader(template_name, template_dirs)
+                return loader(template_name_converted, template_dirs)
             except TemplateDoesNotExist:
-                pass
+               try:
+                   return loader.load_template_source("full/" + template_name, template_dirs)
+               except: pass
+               
         raise TemplateDoesNotExist("Tried %s" % template_name)
 
     def load_template_source(self, template_name, template_dirs=None):
