@@ -30,7 +30,11 @@ class MobileDetectionMiddleware(object):
         "upg1", "upsi", "vk-v", "voda", "wap-", "wapa",
         "wapi", "wapp", "wapr", "webc", "winw", "winw",
         "xda-",)
-    user_agents_test_search = "(?:up.browser|up.link|mmp|symbian|smartphone|midp|wap|phone|windows ce|pda|mobile|mini|palm|netfront)"
+    user_agents_test_search = "(?:%s)" % u'|'.join((
+        'up.browser', 'up.link', 'mmp', 'symbian', 'smartphone', 'midp',
+        'wap', 'phone', 'windows ce', 'pda', 'mobile', 'mini', 'palm',
+        'netfront', 'opera mobi',
+    ))
     http_accept_regex = re.compile("application/vnd\.wap\.xhtml\+xml", re.IGNORECASE)
 
     def __init__(self):

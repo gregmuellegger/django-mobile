@@ -1,6 +1,12 @@
 Changlog
 ========
 
+0.2.2
+-----
+
+* FIX: Opera Mobile on Android was categorized as mobile browser. Thanks to
+  dgerzo for the report.
+
 0.2.1
 -----
 

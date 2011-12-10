@@ -157,6 +157,20 @@ class SetFlavourMiddlewareTests(BaseTestCase):
             (('mobile', request), {'permanent': True}))
 
 
+class RealAgentNameTests(BaseTestCase):
+    def assertMobile(self, agent):
+        client = Client(HTTP_USER_AGENT=agent)
+        response = client.get('/')
+        if response.content.strip() != 'Mobile!':
+            self.fail(u'Agent is not matched as mobile: %s' % agent)
+
+    def test_opera_mobile_on_android(self):
+        '''
+        Regression test of issue #9
+        '''
+        self.assertMobile(u'Opera/9.80 (Android 2.3.3; Linux; Opera Mobi/ADR-1111101157; U; en) Presto/2.9.201 Version/11.50')
+
+
 class RegressionTests(BaseTestCase):
     def setUp(self):
         self.desktop = Client()
