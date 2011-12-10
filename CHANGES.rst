@@ -6,6 +6,8 @@ Changlog
 
 * FIX: Opera Mobile on Android was categorized as mobile browser. Thanks to
   dgerzo for the report.
+* Sniffing for iPad so that it doesn't get recognized as small mobile device.
+  Thanks to Ryan Showalter for the patch.
 
 0.2.1
 -----
