@@ -22,6 +22,10 @@ def get_flavour(request=None, default=None):
     if flavour not in settings.FLAVOURS:
         flavour = settings.FLAVOURS[0]
     return flavour
+    
+def get_device_name(request=None):
+    request = request or getattr(_local, 'request', None)
+    return  request.session[settings.FLAVOURS_SESSION_KEY + "_mobile_agent"]
 
 
 def set_flavour(flavour, request=None, permanent=False):
