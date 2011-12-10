@@ -158,17 +158,26 @@ class SetFlavourMiddlewareTests(BaseTestCase):
 
 
 class RealAgentNameTests(BaseTestCase):
-    def assertMobile(self, agent):
+    def assertFullFlavour(self, agent):
+        client = Client(HTTP_USER_AGENT=agent)
+        response = client.get('/')
+        if response.content.strip() != 'Hello full.':
+            self.fail(u'Agent is matched as mobile: %s' % agent)
+
+    def assertMobileFlavour(self, agent):
         client = Client(HTTP_USER_AGENT=agent)
         response = client.get('/')
         if response.content.strip() != 'Mobile!':
             self.fail(u'Agent is not matched as mobile: %s' % agent)
 
+    def test_ipad(self):
+        self.assertFullFlavour(u'Mozilla/5.0 (iPad; U; CPU OS 3_2 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Version/4.0.4 Mobile/7B334b Safari/531.21.10')
+
     def test_opera_mobile_on_android(self):
         '''
         Regression test of issue #9
         '''
-        self.assertMobile(u'Opera/9.80 (Android 2.3.3; Linux; Opera Mobi/ADR-1111101157; U; en) Presto/2.9.201 Version/11.50')
+        self.assertMobileFlavour(u'Opera/9.80 (Android 2.3.3; Linux; Opera Mobi/ADR-1111101157; U; en) Presto/2.9.201 Version/11.50')
 
 
 class RegressionTests(BaseTestCase):

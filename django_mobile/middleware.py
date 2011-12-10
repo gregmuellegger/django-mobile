@@ -30,10 +30,13 @@ class MobileDetectionMiddleware(object):
         "upg1", "upsi", "vk-v", "voda", "wap-", "wapa",
         "wapi", "wapp", "wapr", "webc", "winw", "winw",
         "xda-",)
-    user_agents_test_search = "(?:%s)" % u'|'.join((
+    user_agents_test_search = u"(?:%s)" % u'|'.join((
         'up.browser', 'up.link', 'mmp', 'symbian', 'smartphone', 'midp',
         'wap', 'phone', 'windows ce', 'pda', 'mobile', 'mini', 'palm',
         'netfront', 'opera mobi',
+    ))
+    user_agents_exception_search = u"(?:%s)" % u'|'.join((
+        'ipad',
     ))
     http_accept_regex = re.compile("application/vnd\.wap\.xhtml\+xml", re.IGNORECASE)
 
@@ -41,6 +44,7 @@ class MobileDetectionMiddleware(object):
         user_agents_test_match = r'^(?:%s)' % '|'.join(self.user_agents_test_match)
         self.user_agents_test_match_regex = re.compile(user_agents_test_match, re.IGNORECASE)
         self.user_agents_test_search_regex = re.compile(self.user_agents_test_search, re.IGNORECASE)
+        self.user_agents_exception_search_regex = re.compile(self.user_agents_exception_search, re.IGNORECASE)
 
     def process_request(self, request):
         is_mobile = False
@@ -49,7 +53,8 @@ class MobileDetectionMiddleware(object):
             user_agent = request.META['HTTP_USER_AGENT']
 
             # Test common mobile values.
-            if self.user_agents_test_search_regex.search(user_agent):
+            if self.user_agents_test_search_regex.search(user_agent) and \
+                not self.user_agents_exception_search_regex.search(user_agent):
                 is_mobile = True
             else:
                 # Nokia like test for WAP browsers.
