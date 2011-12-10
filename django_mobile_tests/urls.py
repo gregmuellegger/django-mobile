@@ -9,7 +9,13 @@ def index(request):
     }, context_instance=RequestContext(request))
 
 
+def platform(request):
+    return render_to_response('platform.html', {},
+        context_instance=RequestContext(request))
+
+
 urlpatterns = patterns('',
     url(r'^$', index),
     url(r'^cached/$', cache_page(60*10)(index)),
+    url(r'^platform/$', platform),
 )

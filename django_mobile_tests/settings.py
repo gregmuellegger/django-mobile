@@ -67,6 +67,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.doc.XViewMiddleware',
     'django_mobile.middleware.MobileDetectionMiddleware',
     'django_mobile.middleware.SetFlavourMiddleware',
+    'django_mobile.middleware.DetectClientPlatformMiddleware',
 )
 
 ROOT_URLCONF = 'django_mobile_tests.urls'
@@ -93,6 +94,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.media",
     "django_mobile.context_processors.flavour",
     "django_mobile.context_processors.is_mobile",
+    "django_mobile.context_processors.platform",
 )
 
 try:

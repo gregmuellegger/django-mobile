@@ -1,10 +1,16 @@
-from django_mobile import get_flavour
+from django_mobile import get_flavour, get_platform
 from django_mobile.conf import settings
 
 
 def flavour(request):
     return {
         'flavour': get_flavour(),
+    }
+
+
+def platform(request):
+    return {
+        'client_platform': get_platform(request),
     }
 
 

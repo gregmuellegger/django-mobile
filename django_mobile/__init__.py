@@ -6,6 +6,12 @@ from django_mobile.conf import settings
 _local = threading.local()
 
 
+if getattr(settings, 'FLAVOURS_SESSION_KEY', None):
+    PLATFORM_NAME_SESSION_KEY = '%s_device_name' % settings.FLAVOURS_SESSION_KEY
+else:
+    PLATFORM_NAME_SESSION_KEY = None
+
+
 def get_flavour(request=None, default=None):
     flavour = None
     request = request or getattr(_local, 'request', None)
@@ -57,3 +63,23 @@ def _init_flavour(request):
         _local.flavour = request.flavour
     if not hasattr(_local, 'flavour'):
         _local.flavour = settings.FLAVOURS[0]
+
+
+def get_platform(request=None, default=None):
+    if getattr(_local, 'client_platform', None) is not None:
+        return _local.client_platform
+    request = request or getattr(_local, 'request', None)
+    if getattr(request, 'client_platform', None) is not None:
+        return request.client_platform
+    if PLATFORM_NAME_SESSION_KEY and PLATFORM_NAME_SESSION_KEY in request.session:
+        return request.session[PLATFORM_NAME_SESSION_KEY]
+    return default
+
+
+def set_platform(platform, request=None):
+    _local.client_platform = platform
+    request = request or getattr(_local, 'request', None)
+    if request:
+        request.client_platform = platform
+        if PLATFORM_NAME_SESSION_KEY:
+            request.session[PLATFORM_NAME_SESSION_KEY] = platform

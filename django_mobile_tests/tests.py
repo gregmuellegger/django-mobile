@@ -170,20 +170,33 @@ class RealAgentNameTests(BaseTestCase):
         if response.content.strip() != 'Mobile!':
             self.fail(u'Agent is not matched as mobile: %s' % agent)
 
+    def assertPlatform(self, platform, agent):
+        client = Client(HTTP_USER_AGENT=agent)
+        response = client.get('/platform/')
+        got = response.content.strip()
+        if got != platform:
+            self.fail(u'Expected platform %r, got %r' % (platform, got))
+
     def test_ipad(self):
-        self.assertFullFlavour(u'Mozilla/5.0 (iPad; U; CPU OS 3_2 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Version/4.0.4 Mobile/7B334b Safari/531.21.10')
+        agent = u'Mozilla/5.0 (iPad; U; CPU OS 3_2 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Version/4.0.4 Mobile/7B334b Safari/531.21.10'
+        self.assertFullFlavour(agent)
+        self.assertPlatform('iPad', agent)
 
     def test_iphone(self):
-        self.assertMobileFlavour(u'Mozilla/5.0 (iPhone; U; CPU like Mac OS X; en) AppleWebKit/420+ (KHTML, like Gecko) Version/3.0 Mobile/1A543a Safari/419.3')
+        agent = u'Mozilla/5.0 (iPhone; U; CPU like Mac OS X; en) AppleWebKit/420+ (KHTML, like Gecko) Version/3.0 Mobile/1A543a Safari/419.3'
+        self.assertMobileFlavour(agent)
+        self.assertPlatform('iPhone', agent)
 
     def test_motorola_xoom(self):
-        self.assertFullFlavour(u'Mozilla/5.0 (Linux; U; Android 3.0; en-us; Xoom Build/HRI39) AppleWebKit/534.13 (KHTML, like Gecko) Version/4.0 Safari/534.13')
+        agent = u'Mozilla/5.0 (Linux; U; Android 3.0; en-us; Xoom Build/HRI39) AppleWebKit/534.13 (KHTML, like Gecko) Version/4.0 Safari/534.13'
+        self.assertFullFlavour(agent)
+        self.assertPlatform('Android', agent)
 
     def test_opera_mobile_on_android(self):
-        '''
-        Regression test of issue #9
-        '''
-        self.assertMobileFlavour(u'Opera/9.80 (Android 2.3.3; Linux; Opera Mobi/ADR-1111101157; U; en) Presto/2.9.201 Version/11.50')
+        agent = u'Opera/9.80 (Android 2.3.3; Linux; Opera Mobi/ADR-1111101157; U; en) Presto/2.9.201 Version/11.50'
+        # Regression test of issue #9
+        self.assertMobileFlavour(agent)
+        self.assertPlatform('Android', agent)
 
 
 class RegressionTests(BaseTestCase):

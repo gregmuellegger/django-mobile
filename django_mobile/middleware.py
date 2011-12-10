@@ -1,5 +1,6 @@
 import re
 from django_mobile import set_flavour, _init_flavour
+from django_mobile import get_platform, set_platform
 from django_mobile.conf import settings
 
 
@@ -72,3 +73,21 @@ class MobileDetectionMiddleware(object):
 
         if is_mobile:
             set_flavour(settings.DEFAULT_MOBILE_FLAVOUR, request)
+
+
+class DetectClientPlatformMiddleware(object):
+    default_platform = 'Unknown'
+    platforms = ("iPhone", "iPad", "Android", "webOS", "BlackBerry", "Symbian", "Windows Phone")
+
+    def detect_platform(self, request):
+        agent = request.META.get('HTTP_USER_AGENT')
+        if agent:
+            for platform in self.platforms:
+                if platform in agent:
+                    return platform
+
+    def process_request(self, request):
+        platform = get_platform(request)
+        if platform is None:
+            platform = self.detect_platform(request)
+        set_platform(platform, request)
