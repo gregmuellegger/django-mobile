@@ -133,7 +133,7 @@ class MobileDetectionMiddlewareTests(BaseTestCase):
         }
         middleware = MobileDetectionMiddleware()
         middleware.process_request(request)
-        self.assertEqual(set_flavour.call_count, 0)
+        self.assertEqual(set_flavour.call_args, (('full', request), {}))
 
 
 class SetFlavourMiddlewareTests(BaseTestCase):

@@ -1,6 +1,12 @@
 Changlog
 ========
 
+0.2.3
+-----
+
+* FIX: set *flavour* in all cases, not only if a mobile browser is detected.
+  Thanks to John P. Kiffmeyer for the report.
+
 0.2.2
 -----
 
