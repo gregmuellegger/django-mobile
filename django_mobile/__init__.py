@@ -6,15 +6,58 @@ from django_mobile.conf import settings
 _local = threading.local()
 
 
+class SessionBackend(object):
+    def get(self, request, default=None):
+        return request.session.get(settings.FLAVOURS_SESSION_KEY, default)
+
+    def set(self, request, flavour):
+        request.session[settings.FLAVOURS_SESSION_KEY] = flavour
+
+
+class CookieBackend(object):
+    def get(self, request, default=None):
+        return request.COOKIES.get(settings.FLAVOURS_COOKIE_KEY, default)
+
+    def set(self, request, flavour):
+        request.COOKIES[settings.FLAVOURS_COOKIE_KEY] = flavour
+
+
+# hijack this dict to add your own backend
+FLAVOUR_STORAGE_BACKENDS = {
+    'cookie': CookieBackend(),
+    'session': SessionBackend(),
+}
+
+
+class ProxyBackend(object):
+    def get_backend(self):
+        backend = settings.FLAVOURS_STORAGE_BACKEND
+        if not settings.FLAVOURS_STORAGE_BACKEND:
+            raise ImproperlyConfigured(
+                u"You must specify a FLAVOURS_STORAGE_BACKEND setting to "
+                u"save the flavour for a user.")
+        return FLAVOUR_STORAGE_BACKENDS[backend]
+
+    def get(self, *args, **kwargs):
+        if settings.FLAVOURS_STORAGE_BACKEND is None:
+            return None
+        return self.get_backend().get(*args, **kwargs)
+
+    def set(self, *args, **kwargs):
+        if settings.FLAVOURS_STORAGE_BACKEND is None:
+            return None
+        return self.get_backend().set(*args, **kwargs)
+
+
+flavour_storage = ProxyBackend()
+
+
 def get_flavour(request=None, default=None):
     flavour = None
     request = request or getattr(_local, 'request', None)
-    # get flavour from session if enabled
-    if request and settings.FLAVOURS_SESSION_KEY:
-        flavour = request.session.get(settings.FLAVOURS_SESSION_KEY, None)
-    if(not flavour):
-        if request and settings.FLAVOURS_COOKIE_KEY:
-            flavour = request.COOKIES.get(settings.FLAVOURS_COOKIE_KEY, None)
+    # get flavour from storage if enabled
+    if request:
+        flavour = flavour_storage.get(request)
     # check if flavour is set on request
     if not flavour and hasattr(request, 'flavour'):
         flavour = request.flavour
@@ -37,11 +80,7 @@ def set_flavour(flavour, request=None, permanent=False):
     if request:
         request.flavour = flavour
         if permanent:
-            if not settings.FLAVOURS_SESSION_KEY:
-                raise ImproperlyConfigured(
-                    u"You must specify the FLAVOURS_SESSION_KEY setting to "
-                    u"use the 'permanent' parameter.")
-            request.session[settings.FLAVOURS_SESSION_KEY] = flavour
+            flavour_storage.set(request, flavour)
     elif permanent:
         raise ValueError(
             u'Cannot set flavour permanently, no request available.')

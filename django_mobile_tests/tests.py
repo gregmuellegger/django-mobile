@@ -35,16 +35,33 @@ class BasicFunctionTests(BaseTestCase):
         self.assertEqual(get_flavour(), 'mobile')
         self.assertRaises(ValueError, set_flavour, 'spam')
 
-    def test_set_flavour_permanent(self):
-        request = Mock()
-        request.session = MagicMock()
+    def test_set_flavour_with_cookie_backend(self):
+        original_FLAVOURS_STORAGE_BACKEND = settings.FLAVOURS_STORAGE_BACKEND
+        try:
+            settings.FLAVOURS_STORAGE_BACKEND = 'cookie'
+            request = Mock()
+            request.COOKIES = {}
+            set_flavour('mobile', request=request)
+            self.assertEqual(request.COOKIES, {})
+            set_flavour('mobile', request=request, permanent=True)
+            self.assertEqual(request.COOKIES, {settings.FLAVOURS_COOKIE_KEY: 'mobile'})
+            self.assertEqual(get_flavour(request), 'mobile')
+        finally:
+            settings.FLAVOURS_STORAGE_BACKEND = original_FLAVOURS_STORAGE_BACKEND
 
-        set_flavour('mobile', request=request)
-        self.assertEqual(request.session.__setitem__.call_args, None)
-        set_flavour('mobile', request=request, permanent=True)
-        self.assertEqual(
-            request.session.__setitem__.call_args,
-            ((settings.FLAVOURS_SESSION_KEY, 'mobile',), {}))
+    def test_set_flavour_with_session_backend(self):
+        original_FLAVOURS_STORAGE_BACKEND = settings.FLAVOURS_STORAGE_BACKEND
+        try:
+            settings.FLAVOURS_STORAGE_BACKEND = 'session'
+            request = Mock()
+            request.session = {}
+            set_flavour('mobile', request=request)
+            self.assertEqual(request.session, {})
+            set_flavour('mobile', request=request, permanent=True)
+            self.assertEqual(request.session, {settings.FLAVOURS_SESSION_KEY: 'mobile'})
+            self.assertEqual(get_flavour(request), 'mobile')
+        finally:
+            settings.FLAVOURS_STORAGE_BACKEND = original_FLAVOURS_STORAGE_BACKEND
 
 
 class TemplateLoaderTests(BaseTestCase):
