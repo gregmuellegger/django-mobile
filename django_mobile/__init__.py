@@ -12,6 +12,9 @@ def get_flavour(request=None, default=None):
     # get flavour from session if enabled
     if request and settings.FLAVOURS_SESSION_KEY:
         flavour = request.session.get(settings.FLAVOURS_SESSION_KEY, None)
+    if(not flavour):
+        if request and settings.FLAVOURS_COOKIE_KEY:
+            flavour = request.COOKIES.get(settings.FLAVOURS_COOKIE_KEY, None)
     # check if flavour is set on request
     if not flavour and hasattr(request, 'flavour'):
         flavour = request.flavour
