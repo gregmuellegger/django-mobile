@@ -25,6 +25,7 @@ class defaults(object):
     FLAVOURS_GET_PARAMETER = u'flavour'
     FLAVOURS_STORAGE_BACKEND = u'cookie'
     FLAVOURS_COOKIE_KEY = u'flavour'
+    FLAVOURS_COOKIE_HTTPONLY = False
     FLAVOURS_SESSION_KEY = u'flavour'
     FLAVOURS_TEMPLATE_LOADERS = []
     for loader in django_settings.TEMPLATE_LOADERS:

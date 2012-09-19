@@ -30,7 +30,8 @@ class CookieBackend(object):
         if hasattr(request, '_flavour_cookie'):
             response.set_cookie(
                 smart_str(settings.FLAVOURS_COOKIE_KEY),
-                smart_str(request._flavour_cookie))
+                smart_str(request._flavour_cookie),
+                httponly=settings.FLAVOURS_COOKIE_HTTPONLY)
 
 
 # hijack this dict to add your own backend
