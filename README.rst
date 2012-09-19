@@ -246,7 +246,7 @@ DEFAULT_MOBILE_FLAVOUR
 The flavour which is chosen if the built-in ``MobileDetectionMiddleware``
 detects a mobile browser.
 
-**Default:** ``mobile``
+**Default:** ``'mobile'``
 
 FLAVOURS_TEMPLATE_PREFIX
 ^^^^^^^^^^^^^^^^^^^^^^^^
