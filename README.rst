@@ -314,3 +314,11 @@ session. This setting determines which session key is used to hold this
 information.
 
 **Default:** ``'flavour'``
+
+FLAVOURS_STORAGE_BACKEND
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+Determines how the selected flavour is stored persistently. Available values:
+``'session'`` and ``'cookie'``.
+
+**Default:** ``'session'``
