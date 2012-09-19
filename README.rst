@@ -180,10 +180,11 @@ Reference
 
 ``django_mobile.middleware.SetFlavourMiddleware``
 
-    Takes care of loading the stored flavour from the user's session if set.
-    Also sets the current request to a thread-local variable. This is needed
-    to provide ``get_flavour()`` functionality without having access to the
-    request object.
+    Takes care of loading the stored flavour from the user's session or
+    cookies (depending on ``FLAVOURS_STORAGE_BACKEND``) if set. Also sets the
+    current request to a thread-local variable. This is needed to provide
+    ``get_flavour()`` functionality without having access to the request
+    object.
 
 ``django_mobile.middleware.MobileDetectionMiddleware``
 

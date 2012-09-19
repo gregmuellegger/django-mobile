@@ -1,4 +1,5 @@
 import re
+from django_mobile import flavour_storage
 from django_mobile import set_flavour, _init_flavour
 from django_mobile.conf import settings
 
@@ -11,6 +12,10 @@ class SetFlavourMiddleware(object):
             flavour = request.GET[settings.FLAVOURS_GET_PARAMETER]
             if flavour in settings.FLAVOURS:
                 set_flavour(flavour, request, permanent=True)
+
+    def process_response(self, request, response):
+        flavour_storage.save(request, response)
+        return response
 
 
 class MobileDetectionMiddleware(object):

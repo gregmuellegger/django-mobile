@@ -1,6 +1,12 @@
 Changlog
 ========
 
+0.2.4
+-----
+
+* FIX: Cookie backend actually never really worked. Thanks to demidov91 for
+  the report. 
+
 0.2.3
 -----
 

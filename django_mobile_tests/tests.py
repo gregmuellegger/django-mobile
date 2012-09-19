@@ -1,5 +1,5 @@
 import threading
-from django.conf import settings as django_settings
+from django.contrib.sessions.models import Session
 from django.template import RequestContext, TemplateDoesNotExist
 from django.template.loaders import app_directories, filesystem
 from django.test import Client, TestCase
@@ -39,13 +39,14 @@ class BasicFunctionTests(BaseTestCase):
         original_FLAVOURS_STORAGE_BACKEND = settings.FLAVOURS_STORAGE_BACKEND
         try:
             settings.FLAVOURS_STORAGE_BACKEND = 'cookie'
-            request = Mock()
-            request.COOKIES = {}
-            set_flavour('mobile', request=request)
-            self.assertEqual(request.COOKIES, {})
-            set_flavour('mobile', request=request, permanent=True)
-            self.assertEqual(request.COOKIES, {settings.FLAVOURS_COOKIE_KEY: 'mobile'})
-            self.assertEqual(get_flavour(request), 'mobile')
+            response = self.client.get('/')
+            self.assertFalse(settings.FLAVOURS_COOKIE_KEY in response.cookies)
+            response = self.client.get('/', {
+                settings.FLAVOURS_GET_PARAMETER: 'mobile',
+            })
+            self.assertTrue(settings.FLAVOURS_COOKIE_KEY in response.cookies)
+            self.assertTrue(response.cookies[settings.FLAVOURS_COOKIE_KEY], u'mobile')
+            self.assertContains(response, 'Mobile!')
         finally:
             settings.FLAVOURS_STORAGE_BACKEND = original_FLAVOURS_STORAGE_BACKEND
 
@@ -58,8 +59,22 @@ class BasicFunctionTests(BaseTestCase):
             set_flavour('mobile', request=request)
             self.assertEqual(request.session, {})
             set_flavour('mobile', request=request, permanent=True)
-            self.assertEqual(request.session, {settings.FLAVOURS_SESSION_KEY: 'mobile'})
+            self.assertEqual(request.session, {
+                settings.FLAVOURS_SESSION_KEY: u'mobile'
+            })
             self.assertEqual(get_flavour(request), 'mobile')
+
+            response = self.client.get('/')
+            self.assertFalse('sessionid' in response.cookies)
+            response = self.client.get('/', {
+                settings.FLAVOURS_GET_PARAMETER: 'mobile',
+            })
+            self.assertTrue('sessionid' in response.cookies)
+            sessionid = response.cookies['sessionid'].value
+            session = Session.objects.get(session_key=sessionid)
+            session_data = session.get_decoded()
+            self.assertTrue(settings.FLAVOURS_SESSION_KEY in session_data)
+            self.assertEqual(session_data[settings.FLAVOURS_SESSION_KEY], 'mobile')
         finally:
             settings.FLAVOURS_STORAGE_BACKEND = original_FLAVOURS_STORAGE_BACKEND
 
