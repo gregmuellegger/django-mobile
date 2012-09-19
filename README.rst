@@ -248,6 +248,23 @@ detects a mobile browser.
 
 **Default:** ``'mobile'``
 
+FLAVOURS_COOKIE_HTTPONLY
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+The value that get passed into ``HttpResponse.set_cookie``'s ``httponly``
+argument. Set this to ``True`` if you don't want the Javascript code to be
+able to read the flavour cookie.
+
+**Default:** ``False``
+
+FLAVOURS_COOKIE_KEY
+^^^^^^^^^^^^^^^^^^^
+
+The cookie name that is used for storing the selected flavour in the browser.
+This is only used if ``FLAVOURS_STORAGE_BACKEND`` is set to ``'cookie'``.
+
+**Default:** ``'flavour'``
+
 FLAVOURS_TEMPLATE_PREFIX
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
