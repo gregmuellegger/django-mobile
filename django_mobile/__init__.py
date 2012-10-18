@@ -109,8 +109,6 @@ def _set_request_header(request, flavour):
 
 
 def _init_flavour(request):
-    global _local
-    _local = threading.local()
     _local.request = request
     if hasattr(request, 'flavour'):
         _local.flavour = request.flavour
