@@ -94,7 +94,7 @@ the mobile flavour enabled.
 
 *Note:* The ``flavour`` template variable is only available if you have set up the
 ``django_mobile.context_processors.flavour`` context processor and used
-django's ``RequestContext`` as context instance to render the template.
+django's ``RequestContext`` as context instance to render the template. The name of this variable can also be changed with ``FLAVOURS_TEMPLATE_FLAVOUR_KEY``.
 
 Changing the current flavour
 ----------------------------
@@ -170,13 +170,13 @@ Reference
 ``django_mobile.context_processors.flavour``
 
     Context processor that adds the current flavour as *flavour* to the
-    context.
+    context. Variable name can be overridden with the ``FLAVOURS_TEMPLATE_FLAVOUR_KEY`` setting.
 
 ``django_mobile.context_processors.is_mobile``
 
     This context processor will add a *is_mobile* variable to the context
     which is ``True`` if the current flavour equals the
-    ``DEFAULT_MOBILE_FLAVOUR`` setting.
+    ``DEFAULT_MOBILE_FLAVOUR`` setting. Variable name can be overridden with the ``FLAVOURS_TEMPLATE_IS_MOBILE_KEY`` setting.
 
 ``django_mobile.middleware.SetFlavourMiddleware``
 
@@ -322,3 +322,17 @@ Determines how the selected flavour is stored persistently. Available values:
 ``'session'`` and ``'cookie'``.
 
 **Default:** ``'session'``
+
+FLAVOURS_TEMPLATE_FLAVOUR_KEY
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The template variable name used when used in conjunction with ``django_mobile.context_processors.flavour``.
+
+**Default:** ``'flavour'``
+
+FLAVOURS_TEMPLATE_IS_MOBILE_KEY
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The template variable name used when used in conjunction with ``django_mobile.context_processors.is_mobile``.
+
+**Default:** ``'is_mobile'``
