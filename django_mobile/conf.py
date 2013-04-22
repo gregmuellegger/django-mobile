@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.conf import settings as django_settings
 
-CACHE_LOADER_NAME = 'django.template.loaders.cached.Loader'
+CACHE_LOADER_NAME = 'django_mobile.loader.CachedLoader'
 DJANGO_MOBILE_LOADER = 'django_mobile.loader.Loader'
 
 
@@ -34,8 +34,7 @@ class defaults(object):
         if isinstance(loader, (tuple, list)) and loader[0] == CACHE_LOADER_NAME:
             for cached_loader in loader[1]:
                 if cached_loader != DJANGO_MOBILE_LOADER:
-                    FLAVOURS_TEMPLATE_LOADERS.append((CACHE_LOADER_NAME,
-                                                      (cached_loader, )))
+                    FLAVOURS_TEMPLATE_LOADERS.append(cached_loader)
         elif loader != DJANGO_MOBILE_LOADER:
             FLAVOURS_TEMPLATE_LOADERS.append(loader)
     FLAVOURS_TEMPLATE_LOADERS = tuple(FLAVOURS_TEMPLATE_LOADERS)

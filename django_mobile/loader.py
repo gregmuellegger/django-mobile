@@ -1,5 +1,10 @@
 from django.template import TemplateDoesNotExist
 from django.template.loader import find_template_loader, BaseLoader
+from django.template.loader import get_template_from_string, make_origin
+from django.template.loaders.cached import Loader as DjangoCachedLoader
+
+from django.utils.hashcompat import sha_constructor
+
 from django_mobile import get_flavour
 from django_mobile.conf import settings
 
@@ -40,3 +45,27 @@ class Loader(BaseLoader):
                 except TemplateDoesNotExist:
                     pass
         raise TemplateDoesNotExist("Tried %s" % template_name)
+
+
+class CachedLoader(DjangoCachedLoader):
+    is_usable = True
+
+    def load_template(self, template_name, template_dirs=None):
+        key = "{0}:{1}".format(get_flavour(), template_name)
+        if template_dirs:
+            # If template directories were specified, use a hash to differentiate
+            key = '-'.join([template_name, sha_constructor('|'.join(template_dirs)).hexdigest()])
+
+        if key not in self.template_cache:
+            template, origin = self.find_template(template_name, template_dirs)
+            if not hasattr(template, 'render'):
+                try:
+                    template = get_template_from_string(template, origin, template_name)
+                except TemplateDoesNotExist:
+                    # If compiling the template we found raises TemplateDoesNotExist,
+                    # back off to returning the source and display name for the template
+                    # we were asked to load. This allows for correct identification (later)
+                    # of the actual template that does not exist.
+                    return template, origin
+            self.template_cache[key] = template
+        return self.template_cache[key], None
