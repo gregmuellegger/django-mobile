@@ -29,9 +29,14 @@ class defaults(object):
     FLAVOURS_SESSION_KEY = u'flavour'
     FLAVOURS_TEMPLATE_LOADERS = []
     for loader in django_settings.TEMPLATE_LOADERS:
-        if loader != 'django_mobile.loader.Loader':
+        if isinstance(loader, (tuple, list)) and loader[0] == 'django.template.loaders.cached.Loader':
+            for cached_loader in loader[1]:
+                if cached_loader != 'django_mobile.loader.Loader':
+                    FLAVOURS_TEMPLATE_LOADERS.append(('django.template.loaders.cached.Loader',
+                                                      (cached_loader, )))
+        elif loader != 'django_mobile.loader.Loader':
             FLAVOURS_TEMPLATE_LOADERS.append(loader)
     FLAVOURS_TEMPLATE_LOADERS = tuple(FLAVOURS_TEMPLATE_LOADERS)
-
+    print FLAVOURS_TEMPLATE_LOADERS
 
 settings = SettingsProxy(django_settings, defaults)
