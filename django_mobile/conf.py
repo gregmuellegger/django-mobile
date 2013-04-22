@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
-from django.utils.translation import ugettext_lazy as _
 from django.conf import settings as django_settings
+
+CACHE_LOADER_NAME = 'django.template.loaders.cached.Loader'
+DJANGO_MOBILE_LOADER = 'django_mobile.loader.Loader'
 
 
 class SettingsProxy(object):
@@ -15,7 +17,7 @@ class SettingsProxy(object):
             try:
                 return getattr(self.defaults, attr)
             except AttributeError:
-                raise AttributeError, u'settings object has no attribute "%s"' % attr
+                raise AttributeError(u'settings object has no attribute "%s"' % attr)
 
 
 class defaults(object):
@@ -29,14 +31,13 @@ class defaults(object):
     FLAVOURS_SESSION_KEY = u'flavour'
     FLAVOURS_TEMPLATE_LOADERS = []
     for loader in django_settings.TEMPLATE_LOADERS:
-        if isinstance(loader, (tuple, list)) and loader[0] == 'django.template.loaders.cached.Loader':
+        if isinstance(loader, (tuple, list)) and loader[0] == CACHE_LOADER_NAME:
             for cached_loader in loader[1]:
-                if cached_loader != 'django_mobile.loader.Loader':
-                    FLAVOURS_TEMPLATE_LOADERS.append(('django.template.loaders.cached.Loader',
+                if cached_loader != DJANGO_MOBILE_LOADER:
+                    FLAVOURS_TEMPLATE_LOADERS.append((CACHE_LOADER_NAME,
                                                       (cached_loader, )))
-        elif loader != 'django_mobile.loader.Loader':
+        elif loader != DJANGO_MOBILE_LOADER:
             FLAVOURS_TEMPLATE_LOADERS.append(loader)
     FLAVOURS_TEMPLATE_LOADERS = tuple(FLAVOURS_TEMPLATE_LOADERS)
-    print FLAVOURS_TEMPLATE_LOADERS
 
 settings = SettingsProxy(django_settings, defaults)
