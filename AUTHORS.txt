@@ -1,4 +1,4 @@
-Gregor Müllegger <gregor@muellegger.de>
+Gregor Müllegger <gregor@muellegger.de> https://github.com/gregmuellegger
 Ryan Showalter
 Saverio https://github.com/mucca
 Mike Shultz https://github.com/mikeshultz
