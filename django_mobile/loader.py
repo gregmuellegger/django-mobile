@@ -1,8 +1,7 @@
 from django.template import TemplateDoesNotExist
 from django.template.loader import find_template_loader, BaseLoader
-from django.template.loader import get_template_from_string, make_origin
+from django.template.loader import get_template_from_string
 from django.template.loaders.cached import Loader as DjangoCachedLoader
-
 from django.utils.hashcompat import sha_constructor
 
 from django_mobile import get_flavour

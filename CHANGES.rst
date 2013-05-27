@@ -1,6 +1,11 @@
 Changlog
 ========
 
+0.3.0
+-----
+
+* Adding a cached template loader. Thanks to Saverio for the patch.
+
 0.2.4
 -----
 

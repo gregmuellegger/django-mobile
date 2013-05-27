@@ -332,10 +332,12 @@ cached loader for the flavor part instead of the default
 ``'django_mobile.loader.CachedLoader'`` that can manage different cache key for
 any flavor.
 
+.. code-block:: python
+
     TEMPLATE_LOADERS = (
         ('django_mobile.loader.CachedLoader', (
-              "django_mobile.loader.Loader",
-              "django.template.loaders.filesystem.load_template_source",
-              "django.template.loaders.app_directories.load_template_source",
+              'django_mobile.loader.Loader',
+              'django.template.loaders.filesystem.Loader',
+              'django.template.loaders.app_directories.Loader',
         )),
     )
