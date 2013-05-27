@@ -1,3 +1,4 @@
 Gregor Müllegger <gregor@muellegger.de>
 Ryan Showalter
 Saverio https://github.com/mucca
+Mike Shultz https://github.com/mikeshultz
