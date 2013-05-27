@@ -78,7 +78,9 @@ available it will gracefully fallback to the default ``index.html`` template.
 
 In some cases its not the desired way to have a completely separate templates
 for each flavour. You can also use the ``{{ flavour }}`` template variable to
-only change small aspects of a single template. A short example::
+only change small aspects of a single template. A short example:
+
+.. code-block:: html+django
 
     <html>
     <head>
@@ -115,7 +117,9 @@ the ``flavour`` GET parameter on a request to your site. This will permanently
 choose this flavour as their preference to view the site.
 
 You can use this GET parameter to let the user select from your available
-flavours::
+flavours:
+
+.. code-block:: html+django
 
     <ul>
         <li><a href="?flavour=full">Get the full experience</a>
@@ -270,7 +274,10 @@ FLAVOURS_TEMPLATE_PREFIX
 
 This string will be prefixed to the template names when searching for
 flavoured templates. This is useful if you have many flavours and want to
-store them in a common subdirectory. Example::
+store them in a common subdirectory. Example:
+
+
+.. code-block:: python
 
     from django.template.loader import render_to_string
     from django_mobile import set_flavour
