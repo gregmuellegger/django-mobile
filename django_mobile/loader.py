@@ -1,9 +1,8 @@
+import hashlib
 from django.template import TemplateDoesNotExist
 from django.template.loader import find_template_loader, BaseLoader
 from django.template.loader import get_template_from_string
 from django.template.loaders.cached import Loader as DjangoCachedLoader
-from django.utils.hashcompat import sha_constructor
-
 from django_mobile import get_flavour
 from django_mobile.conf import settings
 
@@ -40,7 +39,9 @@ class Loader(BaseLoader):
         for loader in self.template_source_loaders:
             if hasattr(loader, 'load_template_source'):
                 try:
-                    return loader.load_template_source(template_name, template_dirs)
+                    return loader.load_template_source(
+                        template_name,
+                        template_dirs)
                 except TemplateDoesNotExist:
                     pass
         raise TemplateDoesNotExist("Tried %s" % template_name)
@@ -53,7 +54,9 @@ class CachedLoader(DjangoCachedLoader):
         key = "{0}:{1}".format(get_flavour(), template_name)
         if template_dirs:
             # If template directories were specified, use a hash to differentiate
-            key = '-'.join([template_name, sha_constructor('|'.join(template_dirs)).hexdigest()])
+            key = '-'.join([
+                template_name,
+                hashlib.sha1('|'.join(template_dirs)).hexdigest()])
 
         if key not in self.template_cache:
             template, origin = self.find_template(template_name, template_dirs)
@@ -62,9 +65,10 @@ class CachedLoader(DjangoCachedLoader):
                     template = get_template_from_string(template, origin, template_name)
                 except TemplateDoesNotExist:
                     # If compiling the template we found raises TemplateDoesNotExist,
-                    # back off to returning the source and display name for the template
-                    # we were asked to load. This allows for correct identification (later)
-                    # of the actual template that does not exist.
+                    # back off to returning the source and display name for
+                    # the template we were asked to load. This allows for
+                    # correct identification (later) of the actual template
+                    # that does not exist.
                     return template, origin
             self.template_cache[key] = template
         return self.template_cache[key], None
