@@ -161,14 +161,12 @@ Reference
 =========
 
 ``django_mobile.get_flavour([request,] [default])``
-
     Get the currently active flavour. If no flavour can be determined it will
     return *default*. This can happen if ``set_flavour`` was not called before
     in the current request-response cycle. *default* defaults to the first
     item in the ``FLAVOURS`` setting.
 
 ``django_mobile.set_flavour(flavour, [request,] [permanent])``
-
     Set the *flavour* to be used for *request*. This will raise ``ValueError``
     if *flavour* is not in the ``FLAVOURS`` setting. You can try to set the
     flavour permanently for *request* by passing ``permanent=True``. This may
@@ -176,18 +174,15 @@ Reference
     currently active request.
 
 ``django_mobile.context_processors.flavour``
-
     Context processor that adds the current flavour as *flavour* to the
     context.
 
 ``django_mobile.context_processors.is_mobile``
-
     This context processor will add a *is_mobile* variable to the context
     which is ``True`` if the current flavour equals the
     ``DEFAULT_MOBILE_FLAVOUR`` setting.
 
 ``django_mobile.middleware.SetFlavourMiddleware``
-
     Takes care of loading the stored flavour from the user's session or
     cookies (depending on ``FLAVOURS_STORAGE_BACKEND``) if set. Also sets the
     current request to a thread-local variable. This is needed to provide
@@ -195,22 +190,18 @@ Reference
     object.
 
 ``django_mobile.middleware.MobileDetectionMiddleware``
-
     Detects if a mobile browser tries to access the site and sets the flavour
     to ``DEFAULT_MOBILE_FLAVOUR`` settings value in case.
 
 ``django_mobile.cache.cache_page``
-
     Same as django's ``cache_page`` decorator but applies ``vary_on_flavour``
     before the view is decorated with
     ``django.views.decorators.cache.cache_page``.
 
 ``django_mobile.cache.vary_on_flavour``
-
     A decorator created from the ``CacheFlavourMiddleware`` middleware.
 
 ``django_mobile.cache.middleware.CacheFlavourMiddleware``
-
     Adds ``X-Flavour`` header to ``request.META`` in ``process_request`` and
     adds this header to ``response['Vary']`` in ``process_response``.
 
