@@ -322,3 +322,20 @@ Determines how the selected flavour is stored persistently. Available values:
 ``'session'`` and ``'cookie'``.
 
 **Default:** ``'session'``
+
+Cache Settings
+--------------
+
+In case you have your website with a bit of traffic, you can use the ad hoc
+cached loader for the flavor part instead of the default
+``'django.template.loaders.cached.Loader'`` you have to use the internal
+``'django_mobile.loader.CachedLoader'`` that can manage different cache key for
+any flavor.
+
+    TEMPLATE_LOADERS = (
+        ('django_mobile.loader.CachedLoader', (
+              "django_mobile.loader.Loader",
+              "django.template.loaders.filesystem.load_template_source",
+              "django.template.loaders.app_directories.load_template_source",
+        )),
+    )
