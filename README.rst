@@ -311,11 +311,13 @@ changed in your own ``settings.py``:
 Cache Settings
 --------------
 
-In case you have your website with a bit of traffic, you can use the ad hoc
-cached loader for the flavor part instead of the default
-``'django.template.loaders.cached.Loader'`` you have to use the internal
-``'django_mobile.loader.CachedLoader'`` that can manage different cache key for
-any flavor.
+Django ships with the `cached template loader`_
+``django.template.loaders.cached.Loader`` that doesn't require to fetch the
+template from disk every time you want to render it. However it isn't aware of
+django-mobile's flavours. For this purpose you can use
+``'django_mobile.loader.CachedLoader'`` as a drop-in replacement that does
+exactly the same django's version but takes the different flavours into
+account. To use it, put the following bit into your ``settings.py`` file:
 
 .. code-block:: python
 
@@ -326,3 +328,6 @@ any flavor.
               'django.template.loaders.app_directories.Loader',
         )),
     )
+
+.. _cached template loader:
+   https://docs.djangoproject.com/en/dev/ref/templates/api/#django.template.loaders.cached.Loader
