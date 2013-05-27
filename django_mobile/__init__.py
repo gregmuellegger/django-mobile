@@ -1,3 +1,9 @@
+# -*- coding: utf-8 -*-
+
+__author__ = u'Gregor Müllegger'
+__version__ = '0.3.0'
+
+
 import threading
 from django.core.exceptions import ImproperlyConfigured
 from django.utils.encoding import smart_str
