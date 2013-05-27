@@ -4,6 +4,8 @@ Changlog
 0.3.0
 -----
 
+* Dropping support for python 2.5 (it might still work but we won't test
+  against it anymore).
 * Adding a cached template loader. Thanks to Saverio for the patch.
 
 0.2.4
