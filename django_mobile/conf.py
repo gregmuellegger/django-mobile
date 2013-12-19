@@ -24,6 +24,7 @@ class defaults(object):
     FLAVOURS = (u'full', u'mobile',)
     DEFAULT_MOBILE_FLAVOUR = u'mobile'
     FLAVOURS_TEMPLATE_PREFIX = u''
+    FLAVOURS_TEMPLATE_NAMEGETTER = lambda _, flavour, template_name: u'%s/%s' % (flavour, template_name)
     FLAVOURS_GET_PARAMETER = u'flavour'
     FLAVOURS_STORAGE_BACKEND = u'cookie'
     FLAVOURS_COOKIE_KEY = u'flavour'
@@ -39,4 +40,4 @@ class defaults(object):
             FLAVOURS_TEMPLATE_LOADERS.append(loader)
     FLAVOURS_TEMPLATE_LOADERS = tuple(FLAVOURS_TEMPLATE_LOADERS)
 
-settings = SettingsProxy(django_settings, defaults)
+settings = SettingsProxy(django_settings, defaults())

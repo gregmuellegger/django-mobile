@@ -20,7 +20,7 @@ class Loader(BaseLoader):
         super(BaseLoader, self).__init__(*args, **kwargs)
 
     def prepare_template_name(self, template_name):
-        template_name = u'%s/%s' % (get_flavour(), template_name)
+        template_name = settings.FLAVOURS_TEMPLATE_NAMEGETTER(get_flavour(), template_name)
         if settings.FLAVOURS_TEMPLATE_PREFIX:
             template_name = settings.FLAVOURS_TEMPLATE_PREFIX + template_name
         return template_name
