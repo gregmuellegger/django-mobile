@@ -154,6 +154,15 @@ class TemplateLoaderTests(BaseTestCase):
         result = result.strip()
         self.assertEqual(result, 'Mobile!')
 
+    def test_loading_unexisting_template(self):
+        from django.template.loader import render_to_string
+        try:
+            render_to_string('not_existent.html')
+        except TemplateDoesNotExist, e:
+            self.assertEqual(e.args, ('not_existent.html',))
+        else:
+            self.fail('TemplateDoesNotExist was not raised.')
+
 
 class MobileDetectionMiddlewareTests(BaseTestCase):
     @patch('django_mobile.middleware.set_flavour')
