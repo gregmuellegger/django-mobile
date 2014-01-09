@@ -8,18 +8,15 @@ sys.path.insert(0, parent)
 
 
 def runtests(*args):
-    from django.conf import settings
-    from django.test.utils import get_runner
+    from django.core import management
 
-    TestRunner = get_runner(settings)
-    test_runner = TestRunner(verbosity=1)
-    failures = test_runner.run_tests(
-        args or [
+    if not args:
+        args = [
             'django_mobile',
             'django_mobile_tests',
-        ])
-    if failures:
-        sys.exit(bool(failures))
+        ]
+    args = ['runtests.py', 'test'] + list(args)
+    management.execute_from_command_line(args)
 
 
 if __name__ == '__main__':
