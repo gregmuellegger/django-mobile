@@ -306,7 +306,7 @@ changed in your own ``settings.py``:
     Determines how the selected flavour is stored persistently. Available
     values: ``'session'`` and ``'cookie'``.
     
-    **Default:** ``'session'``
+    **Default:** ``'cookie'``
 
 Cache Settings
 --------------
