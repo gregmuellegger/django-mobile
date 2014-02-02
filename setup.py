@@ -11,7 +11,7 @@ def get_author(package):
     """
     init_py = open(os.path.join(package, '__init__.py')).read()
     author = re.search("__author__ = u?['\"]([^'\"]+)['\"]", init_py).group(1)
-    return UltraMagicString(author)
+    return author
 
 
 def get_version(package):
@@ -22,33 +22,10 @@ def get_version(package):
     return re.search("__version__ = ['\"]([^'\"]+)['\"]", init_py).group(1)
 
 
-class UltraMagicString(object):
-    '''
-    Taken from
-    http://stackoverflow.com/questions/1162338/whats-the-right-way-to-use-unicode-metadata-in-setup-py
-    '''
-    def __init__(self, value):
-        self.value = value
-
-    def __str__(self):
-        return self.value
-
-    def __unicode__(self):
-        return self.value.decode('UTF-8')
-
-    def __add__(self, other):
-        return UltraMagicString(self.value + str(other))
-
-    def split(self, *args, **kw):
-        return self.value.split(*args, **kw)
-
-
 long_description = u'\n\n'.join((
-    file('README.rst', 'r').read().decode('utf-8'),
-    file('CHANGES.rst', 'r').read().decode('utf-8'),
+    open('README.rst', 'r').read(),
+    open('CHANGES.rst', 'r').read(),
 ))
-long_description = long_description.encode('utf-8')
-long_description = UltraMagicString(long_description)
 
 
 setup(
@@ -71,6 +48,7 @@ setup(
         'Operating System :: OS Independent',
         "Programming Language :: Python :: 2.6",
         "Programming Language :: Python :: 2.7",
+        "Programming Language :: Python :: 3.3",
         "Topic :: Internet :: WWW/HTTP",
         "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
         "Topic :: Software Development :: Libraries :: Python Modules",
