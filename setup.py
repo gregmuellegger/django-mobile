@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 import re
 import os
+import io
 from setuptools import setup
 
 
@@ -23,8 +24,8 @@ def get_version(package):
 
 
 long_description = u'\n\n'.join((
-    open('README.rst', 'r').read(),
-    open('CHANGES.rst', 'r').read(),
+    io.open('README.rst', 'r', encoding='UTF-8').read(),
+    io.open('CHANGES.rst', 'r', encoding='UTF-8').read(),
 ))
 
 
