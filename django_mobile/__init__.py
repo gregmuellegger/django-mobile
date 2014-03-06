@@ -78,12 +78,13 @@ flavour_storage = ProxyBackend()
 def get_flavour(request=None, default=None):
     flavour = None
     request = request or getattr(_local, 'request', None)
-    # get flavour from storage if enabled
     if request:
-        flavour = flavour_storage.get(request)
-    # check if flavour is set on request
-    if not flavour and hasattr(request, 'flavour'):
-        flavour = request.flavour
+        if hasattr(request, 'flavour'):
+            # use flavour set on request if present
+            flavour = request.flavour
+        else:
+            # get flavour from storage if enabled
+            flavour = flavour_storage.get(request)
     # if set out of a request-response cycle its stored on the thread local
     if not flavour:
         flavour = getattr(_local, 'flavour', default)
