@@ -158,7 +158,7 @@ class TemplateLoaderTests(BaseTestCase):
         from django.template.loader import render_to_string
         try:
             render_to_string('not_existent.html')
-        except TemplateDoesNotExist, e:
+        except TemplateDoesNotExist as e:
             self.assertEqual(e.args, ('not_existent.html',))
         else:
             self.fail('TemplateDoesNotExist was not raised.')
