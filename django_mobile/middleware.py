@@ -19,8 +19,17 @@ class SetFlavourMiddleware(object):
 
 
 class MobileDetectionMiddleware(object):
+    """
+    This middleware detects and sets a flavour in case there is no previous
+    flavour saved. In that case the saved flavour is set.
+    """
     def process_request(self, request):
-        if UADetector(request).is_user_agent_mobile():
-            set_flavour(settings.DEFAULT_MOBILE_FLAVOUR, request)
+        saved_flavour = flavour_storage.get(request)
+
+        if saved_flavour is None:
+            if UADetector(request).is_user_agent_mobile():
+                    set_flavour(settings.DEFAULT_MOBILE_FLAVOUR, request)
+            else:
+                set_flavour(settings.FLAVOURS[0], request)
         else:
-            set_flavour(settings.FLAVOURS[0], request)
+            set_flavour(saved_flavour, request)
