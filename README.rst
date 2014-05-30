@@ -257,6 +257,21 @@ changed in your own ``settings.py``:
     
     **Default:** ``'flavour'``
 
+``FLAVOURS_COOKIE_AGE``
+    The maximum age of the flavour cookie, in seconds, or None if the cookie
+    should expire at the end of the browser session.  This is only used if
+    ``FLAVOURS_STORAGE_BACKEND`` is set to ``'cookie'``.
+    
+    **Default:** ``None``
+
+``FLAVOURS_COOKIE_DOMAIN``
+    The domain to use for the flavour cookie.  Set this to a string such as
+    ``".example.com"`` for  cross-domain cookies, or use ``None`` for a
+    standard domain cookie.  This is only used if ``FLAVOURS_STORAGE_BACKEND``
+    is set to ``'cookie'``.
+    
+    **Default:** ``None``
+
 ``FLAVOURS_TEMPLATE_PREFIX``
     This string will be prefixed to the template names when searching for
     flavoured templates. This is useful if you have many flavours and want to
