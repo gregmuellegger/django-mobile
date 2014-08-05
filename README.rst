@@ -250,6 +250,12 @@ changed in your own ``settings.py``:
     
     **Default:** ``False``
 
+``FLAVOURS_COOKIE_DOMAIN``
+    The value that get passed into ``HttpResponse.set_cookie``'s ``domain``
+    argument. Set this to ``.yourdomain.com`` if you want to use cross-domain cookie which is readable by its domain and its subdomains, e.g. sub.yourdomain.com. Otherwise, it's only readable by its domain.
+    
+    **Default:** ``None``
+
 ``FLAVOURS_COOKIE_KEY``
     The cookie name that is used for storing the selected flavour in the
     browser.  This is only used if ``FLAVOURS_STORAGE_BACKEND`` is set to

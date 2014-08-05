@@ -37,6 +37,7 @@ class CookieBackend(object):
             response.set_cookie(
                 smart_str(settings.FLAVOURS_COOKIE_KEY),
                 smart_str(request._flavour_cookie),
+                domain=settings.FLAVOURS_COOKIE_DOMAIN,
                 httponly=settings.FLAVOURS_COOKIE_HTTPONLY)
 
 
