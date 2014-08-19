@@ -10,7 +10,6 @@ env:
   - TOX_ENV=pypy-1.5
   - TOX_ENV=pypy-1.6
 before_install:
-  - export PIP_USE_MIRRORS=true
   - export PIP_INDEX_URL=https://simple.crate.io/
   - sudo pip install tox
 script:
