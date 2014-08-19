@@ -1,12 +1,11 @@
 language: python
 env:
-  - TOX_ENV=py26-1.4
   - TOX_ENV=py26-1.5
   - TOX_ENV=py26-1.6
-  - TOX_ENV=py27-1.4
   - TOX_ENV=py27-1.5
   - TOX_ENV=py27-1.6
-  - TOX_ENV=pypy-1.4
+  - TOX_ENV=py33-1.5
+  - TOX_ENV=py33-1.6
   - TOX_ENV=pypy-1.5
   - TOX_ENV=pypy-1.6
 before_install:
