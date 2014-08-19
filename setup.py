@@ -2,8 +2,11 @@
 # -*- coding: utf-8 -*-
 import re
 import os
+import sys
 from setuptools import setup
 
+README_PATH = os.path.join(os.path.dirname(__file__), 'README.rst')
+CHANGES_PATH = os.path.join(os.path.dirname(__file__), 'README.rst')
 
 def get_author(package):
     """
@@ -42,13 +45,18 @@ class UltraMagicString(object):
     def split(self, *args, **kw):
         return self.value.split(*args, **kw)
 
-
-long_description = u'\n\n'.join((
-    file('README.rst', 'r').read().decode('utf-8'),
-    file('CHANGES.rst', 'r').read().decode('utf-8'),
-))
-long_description = long_description.encode('utf-8')
-long_description = UltraMagicString(long_description)
+if sys.version_info[0] >= 3 :
+    long_description = u'\n\n'.join((
+        open(README_PATH, 'r').read(),
+        open(CHANGES_PATH, 'r').read(),
+    ))
+else :
+    long_description = u'\n\n'.join((
+        open(README_PATH, 'r').read().decode('utf-8'),
+        open(CHANGES_PATH, 'r').read().decode('utf-8'),
+    ))
+    long_description = long_description.encode('utf-8')
+    long_description = UltraMagicString(long_description)
 
 
 setup(

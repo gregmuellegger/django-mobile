@@ -1,4 +1,5 @@
 import threading
+import sys
 from django.contrib.sessions.models import Session
 from django.template import RequestContext, TemplateDoesNotExist
 from django.test import Client, TestCase
@@ -8,6 +9,7 @@ from django_mobile.conf import settings
 from django_mobile.middleware import MobileDetectionMiddleware, \
     SetFlavourMiddleware
 
+IS_PYTHON_3 = sys.version > '3'
 
 def _reset():
     '''
@@ -17,6 +19,15 @@ def _reset():
     del django_mobile._local
     django_mobile._local = threading.local()
 
+def str_p3_response( string ) :
+    """
+    Since response.content is a binary string in python 3,
+    we decode it to make it comparable to str objects
+    ( python 2 compatibility )
+    """
+    if IS_PYTHON_3 :
+        return string.decode( 'ASCII' )
+    return string
 
 class BaseTestCase(TestCase):
     def setUp(self):
@@ -158,7 +169,7 @@ class TemplateLoaderTests(BaseTestCase):
         from django.template.loader import render_to_string
         try:
             render_to_string('not_existent.html')
-        except TemplateDoesNotExist, e:
+        except TemplateDoesNotExist as e:
             self.assertEqual(e.args, ('not_existent.html',))
         else:
             self.fail('TemplateDoesNotExist was not raised.')
@@ -211,13 +222,13 @@ class RealAgentNameTests(BaseTestCase):
     def assertFullFlavour(self, agent):
         client = Client(HTTP_USER_AGENT=agent)
         response = client.get('/')
-        if response.content.strip() != 'Hello full.':
+        if str_p3_response( response.content.strip() ) != 'Hello full.':
             self.fail(u'Agent is matched as mobile: %s' % agent)
 
     def assertMobileFlavour(self, agent):
         client = Client(HTTP_USER_AGENT=agent)
         response = client.get('/')
-        if response.content.strip() != 'Mobile!':
+        if str_p3_response( response.content.strip() ) != 'Mobile!':
             self.fail(u'Agent is not matched as mobile: %s' % agent)
 
     def test_ipad(self):
@@ -247,26 +258,26 @@ class RegressionTests(BaseTestCase):
         Regression test of issue #2
         '''
         response = self.desktop.get('/')
-        self.assertEqual(response.content.strip(), 'Hello full.')
+        self.assertEqual( str_p3_response( response.content.strip() ), 'Hello full.')
 
         response = self.mobile.get('/')
-        self.assertEqual(response.content.strip(), 'Mobile!')
+        self.assertEqual( str_p3_response( response.content.strip() ), 'Mobile!')
 
         response = self.desktop.get('/')
-        self.assertEqual(response.content.strip(), 'Hello full.')
+        self.assertEqual( str_p3_response( response.content.strip() ), 'Hello full.')
 
         response = self.mobile.get('/')
-        self.assertEqual(response.content.strip(), 'Mobile!')
+        self.assertEqual( str_p3_response( response.content.strip() ), 'Mobile!')
 
     def test_cache_page_decorator(self):
         response = self.mobile.get('/cached/')
-        self.assertEqual(response.content.strip(), 'Mobile!')
+        self.assertEqual( str_p3_response( response.content.strip() ), 'Mobile!')
 
         response = self.desktop.get('/cached/')
-        self.assertEqual(response.content.strip(), 'Hello full.')
+        self.assertEqual( str_p3_response( response.content.strip() ), 'Hello full.')
 
         response = self.mobile.get('/cached/')
-        self.assertEqual(response.content.strip(), 'Mobile!')
+        self.assertEqual( str_p3_response( response.content.strip() ), 'Mobile!')
 
         response = self.desktop.get('/cached/')
-        self.assertEqual(response.content.strip(), 'Hello full.')
+        self.assertEqual( str_p3_response( response.content.strip() ), 'Hello full.')
