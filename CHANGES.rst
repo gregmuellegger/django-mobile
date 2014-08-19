@@ -1,6 +1,12 @@
 Changelog
 =========
 
+0.4.0
+-----
+
+* Python 3.3 compatibility, thanks Mirko Rossini for the patch.
+* Dropping Django 1.3 and 1.4 support.
+
 0.3.0
 -----
 
