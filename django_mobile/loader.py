@@ -82,24 +82,22 @@ class CachedLoader(DjangoCachedLoader):
 
     def load_template(self, template_name, template_dirs=None):
         key = self.cache_key(template_name, template_dirs)
+        template_tuple = self.template_cache.get(key)
 
-        if template_dirs:
-            # If template directories were specified, use a hash to differentiate
-            key = '-'.join([
-                template_name,
-                hashlib.sha1('|'.join(template_dirs)).hexdigest()])
-
-        if key not in self.template_cache:
+        if template_tuple is TemplateDoesNotExist:
+            raise TemplateDoesNotExist
+        elif template_tuple is None:
             template, origin = self.find_template(template_name, template_dirs)
             if not hasattr(template, 'render'):
                 try:
                     template = get_template_from_string(template, origin, template_name)
                 except TemplateDoesNotExist:
                     # If compiling the template we found raises TemplateDoesNotExist,
-                    # back off to returning the source and display name for
-                    # the template we were asked to load. This allows for
-                    # correct identification (later) of the actual template
-                    # that does not exist.
-                    return template, origin
-            self.template_cache[key] = template
-        return self.template_cache[key], None
+                    # back off to returning the source and display name for the template
+                    # we were asked to load. This allows for correct identification (later)
+                    # of the actual template that does not exist.
+                    self.template_cache[key] = (template, origin)
+
+            self.template_cache[key] = (template, None)
+
+        return self.template_cache[key]
