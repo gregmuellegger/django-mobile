@@ -5,6 +5,7 @@ from django.template.loader import get_template_from_string
 from django.template.loaders.cached import Loader as DjangoCachedLoader
 from django_mobile import get_flavour
 from django_mobile.conf import settings
+from django.utils.encoding import force_bytes
 
 
 class Loader(BaseLoader):
@@ -67,6 +68,17 @@ class Loader(BaseLoader):
 
 class CachedLoader(DjangoCachedLoader):
     is_usable = True
+
+    def cache_key(self, template_name, template_dirs):
+        if template_dirs:
+            key = '-'.join([
+                template_name,
+                hashlib.sha1(force_bytes('|'.join(template_dirs))).hexdigest()
+            ])
+        else:
+            key = template_name
+
+        return '{0}:{1}'.format(get_flavour(), key)
 
     def load_template(self, template_name, template_dirs=None):
         key = "{0}:{1}".format(get_flavour(), template_name)
