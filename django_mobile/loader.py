@@ -81,7 +81,8 @@ class CachedLoader(DjangoCachedLoader):
         return '{0}:{1}'.format(get_flavour(), key)
 
     def load_template(self, template_name, template_dirs=None):
-        key = "{0}:{1}".format(get_flavour(), template_name)
+        key = self.cache_key(template_name, template_dirs)
+
         if template_dirs:
             # If template directories were specified, use a hash to differentiate
             key = '-'.join([
