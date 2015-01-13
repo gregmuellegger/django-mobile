@@ -1,4 +1,6 @@
 import re
+from django.utils.cache import patch_vary_headers
+
 from django_mobile import flavour_storage
 from django_mobile import set_flavour, _init_flavour
 from django_mobile.conf import settings
@@ -78,3 +80,7 @@ class MobileDetectionMiddleware(object):
             set_flavour(settings.DEFAULT_MOBILE_FLAVOUR, request)
         else:
             set_flavour(settings.FLAVOURS[0], request)
+
+    def process_response(self, request, response):
+        patch_vary_headers(response, ('User-Agent',))
+        return response
