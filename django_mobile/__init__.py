@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-__author__ = u'Gregor Müllegger'
+__author__ = u'Gregor Mullegger'
 __version__ = '0.4.0'
 
 
