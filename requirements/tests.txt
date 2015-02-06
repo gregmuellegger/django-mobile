@@ -1,2 +1,5 @@
+argparse
+coverage
+django-discover-runner
 mock == 1.0.1
 tox
