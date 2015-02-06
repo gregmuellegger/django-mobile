@@ -1,13 +1,15 @@
 language: python
 env:
-  - TOX_ENV=py26-1.5
-  - TOX_ENV=py26-1.6
-  - TOX_ENV=py27-1.5
-  - TOX_ENV=py27-1.6
-  - TOX_ENV=py33-1.5
-  - TOX_ENV=py33-1.6
-  - TOX_ENV=pypy-1.5
-  - TOX_ENV=pypy-1.6
+  - TOX_ENV=py26-15
+  - TOX_ENV=py26-16
+  - TOX_ENV=py27-15
+  - TOX_ENV=py27-16
+  - TOX_ENV=py27-17
+  - TOX_ENV=py33-17
+  - TOX_ENV=py34-17
+  - TOX_ENV=pypy-15
+  - TOX_ENV=pypy-16
+  - TOX_ENV=pypy-17
 before_install:
   - sudo pip install tox
 script:
