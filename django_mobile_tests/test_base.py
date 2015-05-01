@@ -6,6 +6,7 @@ from django.test import Client, TestCase
 from mock import MagicMock, Mock, patch
 from django_mobile import get_flavour, set_flavour
 from django_mobile.conf import settings
+from django_mobile.compat import get_engine
 from django_mobile.middleware import MobileDetectionMiddleware, \
     SetFlavourMiddleware
 
@@ -100,7 +101,7 @@ class TemplateLoaderTests(BaseTestCase):
             app_directories_loader.side_effect = TemplateDoesNotExist()
 
             from django_mobile.loader import Loader
-            loader = Loader()
+            loader = Loader(get_engine())
 
             set_flavour('mobile')
             try:
@@ -130,7 +131,7 @@ class TemplateLoaderTests(BaseTestCase):
             app_directories_loader.side_effect = TemplateDoesNotExist()
 
             from django_mobile.loader import Loader
-            loader = Loader()
+            loader = Loader(get_engine())
 
             set_flavour('mobile')
             try:
