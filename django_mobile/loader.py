@@ -1,33 +1,22 @@
 import hashlib
 from django.template import TemplateDoesNotExist
-from django.template.loader import find_template_loader, BaseLoader
-from django.template.loader import get_template_from_string
 from django.template.loaders.cached import Loader as DjangoCachedLoader
 from django_mobile import get_flavour
 from django_mobile.conf import settings
+from django_mobile.compat import BaseLoader, template_loader, template_from_string
 from django.utils.encoding import force_bytes
 
 
 class Loader(BaseLoader):
     is_usable = True
-
-    def __init__(self, *args, **kwargs):
-        loaders = []
-        for loader_name in settings.FLAVOURS_TEMPLATE_LOADERS:
-            loader = find_template_loader(loader_name)
-            if loader is not None:
-                loaders.append(loader)
-        self.template_source_loaders = tuple(loaders)
-        super(BaseLoader, self).__init__(*args, **kwargs)
+    _template_source_loaders = None
 
     def get_template_sources(self, template_name, template_dirs=None):
         template_name = self.prepare_template_name(template_name)
         for loader in self.template_source_loaders:
             if hasattr(loader, 'get_template_sources'):
                 try:
-                    for result in  loader.get_template_sources(
-                                        template_name,
-                                        template_dirs):
+                    for result in loader.get_template_sources(template_name, template_dirs):
                         yield result
                 except UnicodeDecodeError:
                     # The template dir name was a bytestring that wasn't valid UTF-8.
@@ -65,6 +54,17 @@ class Loader(BaseLoader):
                     pass
         raise TemplateDoesNotExist("Tried %s" % template_name)
 
+    @property
+    def template_source_loaders(self):
+        if not self._template_source_loaders:
+            loaders = []
+            for loader_name in settings.FLAVOURS_TEMPLATE_LOADERS:
+                loader = template_loader(loader_name)
+                if loader is not None:
+                    loaders.append(loader)
+            self._template_source_loaders = tuple(loaders)
+        return self._template_source_loaders
+
 
 class CachedLoader(DjangoCachedLoader):
     is_usable = True
@@ -90,7 +90,7 @@ class CachedLoader(DjangoCachedLoader):
             template, origin = self.find_template(template_name, template_dirs)
             if not hasattr(template, 'render'):
                 try:
-                    template = get_template_from_string(template, origin, template_name)
+                    template = template_from_string(template)
                 except TemplateDoesNotExist:
                     # If compiling the template we found raises TemplateDoesNotExist,
                     # back off to returning the source and display name for the template
