@@ -1,10 +1,11 @@
 Changelog
 =========
 
-0.5.0 (in development)
-----------------------
+0.5.0
+-----
 
-* Supporting Django 1.7 support. Thanks to Jose Ignacio Galarza for the patch.
+* Support for Django 1.7 and Django 1.8. Thanks to Jose Ignacio Galarza and to
+  Anton Shurashov for the patches.
 
 0.4.0
 -----
