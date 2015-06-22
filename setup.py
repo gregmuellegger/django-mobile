@@ -12,7 +12,10 @@ def get_author(package):
     """
     Return package version as listed in `__version__` in `init.py`.
     """
-    init_py = open(os.path.join(package, '__init__.py')).read()
+    if sys.version_info[0] >= 3 :
+        init_py = open(os.path.join(package, '__init__.py'), encoding='utf-8').read()
+    else:
+        init_py = open(os.path.join(package, '__init__.py')).read()
     author = re.search("__author__ = u?['\"]([^'\"]+)['\"]", init_py).group(1)
     return UltraMagicString(author)
 
@@ -21,7 +24,10 @@ def get_version(package):
     """
     Return package version as listed in `__version__` in `init.py`.
     """
-    init_py = open(os.path.join(package, '__init__.py')).read()
+    if sys.version_info[0] >= 3 :
+        init_py = open(os.path.join(package, '__init__.py'), encoding='utf-8').read()
+    else:
+        init_py = open(os.path.join(package, '__init__.py')).read()
     return re.search("__version__ = ['\"]([^'\"]+)['\"]", init_py).group(1)
 
 
