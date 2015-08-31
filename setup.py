@@ -10,11 +10,18 @@ README_PATH = os.path.join(os.path.dirname(__file__), 'README.rst')
 CHANGES_PATH = os.path.join(os.path.dirname(__file__), 'README.rst')
 
 
+def readfile(filename):
+    if sys.version_info[0] >= 3:
+        return open(filename, 'r', encoding='utf-8').read()
+    else:
+        return open(filename, 'r').read()
+
+
 def get_author(package):
     """
     Return package version as listed in `__version__` in `init.py`.
     """
-    init_py = open(os.path.join(package, '__init__.py')).read()
+    init_py = readfile(os.path.join(package, '__init__.py'))
     author = re.search("__author__ = u?['\"]([^'\"]+)['\"]", init_py).group(1)
     return UltraMagicString(author)
 
@@ -23,7 +30,7 @@ def get_version(package):
     """
     Return package version as listed in `__version__` in `init.py`.
     """
-    init_py = open(os.path.join(package, '__init__.py')).read()
+    init_py = readfile(os.path.join(package, '__init__.py'))
     return re.search("__version__ = ['\"]([^'\"]+)['\"]", init_py).group(1)
 
 
@@ -50,13 +57,13 @@ class UltraMagicString(object):
 
 if sys.version_info[0] >= 3:
     long_description = u'\n\n'.join((
-        open(README_PATH, 'r').read(),
-        open(CHANGES_PATH, 'r').read(),
+        readfile(README_PATH),
+        readfile(CHANGES_PATH),
     ))
 else:
     long_description = u'\n\n'.join((
-        open(README_PATH, 'r').read().decode('utf-8'),
-        open(CHANGES_PATH, 'r').read().decode('utf-8'),
+        readfile(README_PATH).decode('utf-8'),
+        readfile(CHANGES_PATH).decode('utf-8'),
     ))
     long_description = long_description.encode('utf-8')
     long_description = UltraMagicString(long_description)
