@@ -1,6 +1,14 @@
 Changelog
 =========
 
+0.5.1
+-----
+
+* `#58`_: Fix Python 3 install issues related to unicode strings. Thanks to
+  Zowie for inspiring the patch.
+
+.. _#58: https://github.com/gregmuellegger/django-mobile/pull/58
+
 0.5.0
 -----
 
