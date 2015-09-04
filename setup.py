@@ -7,7 +7,7 @@ from setuptools import setup
 
 
 README_PATH = os.path.join(os.path.dirname(__file__), 'README.rst')
-CHANGES_PATH = os.path.join(os.path.dirname(__file__), 'README.rst')
+CHANGES_PATH = os.path.join(os.path.dirname(__file__), 'CHANGES.rst')
 
 
 def readfile(filename):
