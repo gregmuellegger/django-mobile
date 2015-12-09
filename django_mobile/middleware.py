@@ -60,6 +60,11 @@ class MobileDetectionMiddleware(object):
             if self.user_agents_test_search_regex.search(user_agent) and \
                 not self.user_agents_exception_search_regex.search(user_agent):
                 is_mobile = True
+                
+            elif 'CloudFront-Is-Mobile-Viewer' in request.META:
+                if request.META['CloudFront-Is-Mobile-Viewer'] == 'true':
+                    is_mobile = True
+                    
             else:
                 # Nokia like test for WAP browsers.
                 # http://www.developershome.com/wap/xhtmlmp/xhtml_mp_tutorial.asp?page=mimeTypesFileExtension
