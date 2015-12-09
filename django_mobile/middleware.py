@@ -60,9 +60,10 @@ class MobileDetectionMiddleware(object):
             if self.user_agents_test_search_regex.search(user_agent) and \
                 not self.user_agents_exception_search_regex.search(user_agent):
                 is_mobile = True
-                
-            elif 'CloudFront-Is-Mobile-Viewer' in request.META:
-                if request.META['CloudFront-Is-Mobile-Viewer'] == 'true':
+            
+            # Test for Amazon CloudFront mobile viewer
+            elif 'HTTP_CLOUDFRONT_IS_MOBILE_VIEWER' in request.META:
+                if request.META['HTTP_CLOUDFRONT_IS_MOBILE_VIEWER']=='true':
                     is_mobile = True
                     
             else:
