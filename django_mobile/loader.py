@@ -85,7 +85,7 @@ class CachedLoader(DjangoCachedLoader):
         template_tuple = self.template_cache.get(key)
 
         if template_tuple is TemplateDoesNotExist:
-            raise TemplateDoesNotExist
+            raise TemplateDoesNotExist('Template not found: %s' % template_name)
         elif template_tuple is None:
             template, origin = self.find_template(template_name, template_dirs)
             if not hasattr(template, 'render'):
