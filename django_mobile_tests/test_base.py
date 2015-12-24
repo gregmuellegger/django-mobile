@@ -97,8 +97,8 @@ class TemplateLoaderTests(BaseTestCase):
         @patch.object(app_directories.Loader, 'load_template')
         @patch.object(filesystem.Loader, 'load_template')
         def testing(filesystem_loader, app_directories_loader):
-            filesystem_loader.side_effect = TemplateDoesNotExist()
-            app_directories_loader.side_effect = TemplateDoesNotExist()
+            filesystem_loader.side_effect = TemplateDoesNotExist('error')
+            app_directories_loader.side_effect = TemplateDoesNotExist('error')
 
             from django_mobile.loader import Loader
             loader = Loader(get_engine())
@@ -127,8 +127,8 @@ class TemplateLoaderTests(BaseTestCase):
         @patch.object(app_directories.Loader, 'load_template_source')
         @patch.object(filesystem.Loader, 'load_template_source')
         def testing(filesystem_loader, app_directories_loader):
-            filesystem_loader.side_effect = TemplateDoesNotExist()
-            app_directories_loader.side_effect = TemplateDoesNotExist()
+            filesystem_loader.side_effect = TemplateDoesNotExist('error')
+            app_directories_loader.side_effect = TemplateDoesNotExist('error')
 
             from django_mobile.loader import Loader
             loader = Loader(get_engine())
