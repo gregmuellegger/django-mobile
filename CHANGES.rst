@@ -1,6 +1,13 @@
 Changelog
 =========
 
+0.6.0
+-----
+
+* `#63`_: Django 1.9 support. Thanks to Alexandre Vicenzi for the patch.
+
+.. _#63: https://github.com/gregmuellegger/django-mobile/pull/63
+
 0.5.1
 -----
 
