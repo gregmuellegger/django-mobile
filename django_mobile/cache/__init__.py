@@ -14,7 +14,7 @@ vary_on_flavour_update = decorator_from_middleware(UpdateCacheFlavourMiddleware)
 def cache_page(*args, **kwargs):
     '''
     Same as django's ``cache_page`` decorator, but wraps the view into
-    ``vary_on_flavour`` decorator before. Makes it possible to serve multiple
+    additional decorators before and after that. Makes it possible to serve multiple
     flavours without getting into trouble with django's caching that doesn't
     know about flavours.
     '''
