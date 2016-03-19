@@ -200,9 +200,8 @@ Reference
     flavours without getting into trouble with django's caching that doesn't
     know about flavours.
 
-``django_mobile.cache.vary_on_flavour_fetch``
-``django_mobile.cache.vary_on_flavour_update``
-    A decorators created from the ``FetchFromCacheFlavourMiddleware`` and ``UpdateCacheFlavourMiddleware`` middleware.
+``django_mobile.cache.vary_on_flavour_fetch`` ``django_mobile.cache.vary_on_flavour_update``
+    Decorators created from the ``FetchFromCacheFlavourMiddleware`` and ``UpdateCacheFlavourMiddleware`` middleware.
 
 ``django_mobile.cache.middleware.FetchFromCacheFlavourMiddleware``
     Adds ``X-Flavour`` header to ``request.META`` in ``process_request``
