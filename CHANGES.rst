@@ -1,8 +1,8 @@
 Changelog
 =========
 
-0.7.0 (in development)
-----------------------
+0.7.0
+-----
 
 * `#64`_: Fixing ``cache_page`` decorator and splitting the
   ``CacheFlavourMiddleware`` into two middlewares. This follows the same
