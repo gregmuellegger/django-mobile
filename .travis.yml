@@ -21,3 +21,12 @@ before_install:
   - sudo pip install tox
 script:
   - tox -e $TOX_ENV
+deploy:
+  provider: pypi
+  user: gremu
+  password:
+    secure: mT6Gzp14P5GuWUi0MlXiBZuH6pb6M6daPe350BLo+66DQ/s1RMqqBU3lu7KTaNIKui1ZoitfNyiMiQ0QYP3+4RvR2/9HK9BEqVY7lK5mDxRWxDr1lVUnV3Bg37Vqj8792xdstDbRwP7/EkZEuviTTWAMEbYE8YJu4M/XLWpgnYY=
+  on:
+    tags: true
+    repo: gregmuellegger/django-mobile
+    condition: "$TOX_ENV = py34-18"
