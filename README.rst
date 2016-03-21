@@ -152,10 +152,11 @@ You can also use django's caching middlewares
 ``django.middleware.cache.UpdateCacheMiddleware`` and
 ``FetchFromCacheMiddleware`` like you already do. But to make them aware of
 flavours, you need to add
-``django_mobile.cache.middleware.CacheFlavourMiddleware`` as second last item
-in the ``MIDDLEWARE_CLASSES`` settings, right before
-``FetchFromCacheMiddleware``.
+``django_mobile.cache.middleware.FetchFromCacheFlavourMiddleware`` item before standard Django ``FetchFromCacheMiddleware``
+in the ``MIDDLEWARE_CLASSES`` settings and ``django_mobile.cache.middleware.UpdateCacheFlavourMiddleware`` before 
+``django_mobile.cache.middleware.UpdateCacheMiddleware`` correspondingly.
 
+It is necessary to split the usage of ``CacheMiddleware`` because some additional work should be done on request and response *before* standard caching behavior and that is not possible while using two complete middlewares in either order
 
 Reference
 =========
@@ -194,16 +195,19 @@ Reference
     to ``DEFAULT_MOBILE_FLAVOUR`` settings value in case.
 
 ``django_mobile.cache.cache_page``
-    Same as django's ``cache_page`` decorator but applies ``vary_on_flavour``
-    before the view is decorated with
-    ``django.views.decorators.cache.cache_page``.
+    Same as django's ``cache_page`` decorator, but wraps the view into
+    additional decorators before and after that. Makes it possible to serve multiple
+    flavours without getting into trouble with django's caching that doesn't
+    know about flavours.
 
-``django_mobile.cache.vary_on_flavour``
-    A decorator created from the ``CacheFlavourMiddleware`` middleware.
+``django_mobile.cache.vary_on_flavour_fetch`` ``django_mobile.cache.vary_on_flavour_update``
+    Decorators created from the ``FetchFromCacheFlavourMiddleware`` and ``UpdateCacheFlavourMiddleware`` middleware.
 
-``django_mobile.cache.middleware.CacheFlavourMiddleware``
-    Adds ``X-Flavour`` header to ``request.META`` in ``process_request`` and
-    adds this header to ``response['Vary']`` in ``process_response``.
+``django_mobile.cache.middleware.FetchFromCacheFlavourMiddleware``
+    Adds ``X-Flavour`` header to ``request.META`` in ``process_request``
+
+``django_mobile.cache.middleware.UpdateCacheFlavourMiddleware``
+    Adds ``X-Flavour`` header to ``response['Vary']`` in ``process_response`` so that Django's ``CacheMiddleware`` know that it should take into account the content of this header when looking up the cached content on next request to this URL.
 
 
 Customization
