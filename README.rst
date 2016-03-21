@@ -4,10 +4,6 @@ django-mobile
 
 |build| |package|
 
-.. image:: https://travis-ci.org/gregmuellegger/django-mobile.png
-   :alt: Build Status
-   :target: https://travis-ci.org/gregmuellegger/django-mobile
-
 .. _introduction:
 
 **django-mobile** provides a simple way to detect mobile browsers and gives
