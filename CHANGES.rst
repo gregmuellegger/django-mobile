@@ -1,6 +1,22 @@
 Changelog
 =========
 
+0.7.0 (in development)
+----------------------
+
+* `#64`_: Fixing ``cache_page`` decorator and splitting the
+  ``CacheFlavourMiddleware`` into two middlewares. This follows the same
+  strategy as Django did since quite a while. Please see `#64`_ for more
+  details about why this is necessary.
+
+  If you are using ``CacheFlavourMiddleware``, you need to replace it now with
+  ``FetchFromCacheFlavourMiddleware`` and ``UpdateCacheMiddleware``.  Please
+  consolidate the README for more information.
+
+  Thanks to Yury Paykov for the patch.
+
+.. _#64: https://github.com/gregmuellegger/django-mobile/pull/64
+
 0.6.0
 -----
 
