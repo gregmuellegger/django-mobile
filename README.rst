@@ -2,6 +2,8 @@
 django-mobile
 =============
 
+|build| |package|
+
 .. image:: https://travis-ci.org/gregmuellegger/django-mobile.png
    :alt: Build Status
    :target: https://travis-ci.org/gregmuellegger/django-mobile
@@ -335,3 +337,12 @@ account. To use it, put the following bit into your ``settings.py`` file:
 
 .. _cached template loader:
    https://docs.djangoproject.com/en/dev/ref/templates/api/#django.template.loaders.cached.Loader
+
+.. |build| image:: https://travis-ci.org/gregmuellegger/django-mobile.svg?branch=master
+    :alt: Build Status
+    :scale: 100%
+    :target: https://travis-ci.org/gregmuellegger/django-mobile
+.. |package| image:: https://badge.fury.io/py/django-mobile.svg
+    :alt: Package Version
+    :scale: 100%
+    :target: http://badge.fury.io/py/django-mobile
