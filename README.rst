@@ -39,9 +39,11 @@ is enabled and working.
    ``MIDDLEWARE_CLASSES`` setting. Make sure it's listed *after*
    ``MobileDetectionMiddleware`` and also after ``SessionMiddleware``.
 5. Add ``django_mobile.loader.Loader`` as first item to your
-   ``TEMPLATE_LOADERS`` list in ``settings.py``.
+   ``loaders`` list for ``TEMPLATES`` setting in ``settings.py``.
 6. Add ``django_mobile.context_processors.flavour`` to your
-   ``TEMPLATE_CONTEXT_PROCESSORS`` setting.
+   ``context_processors`` list for ``TEMPLATES`` setting. You can read more about ``loaders`` and ``context_processors`` in `Django docs`_.
+   
+*Note:* If you are using Django 1.7 or older, you need to change step 5 and 6 slightly. Use the ``TEMPLATE_LOADERS`` and ``TEMPLATE_CONTEXT_PROCESSORS`` settings instead of ``TEMPLATES``.
 
 Now you should be able to use **django-mobile** in its glory. Read below of how
 things work and which settings can be tweaked to modify **django-mobile**'s
@@ -323,16 +325,25 @@ account. To use it, put the following bit into your ``settings.py`` file:
 
 .. code-block:: python
 
-    TEMPLATE_LOADERS = (
-        ('django_mobile.loader.CachedLoader', (
-              'django_mobile.loader.Loader',
-              'django.template.loaders.filesystem.Loader',
-              'django.template.loaders.app_directories.Loader',
-        )),
-    )
+   TEMPLATES = [
+      {
+         ...
+         'OPTIONS': {
+            ...
+            'loaders': ('django_mobile.loader.CachedLoader', (
+               'django_mobile.loader.Loader',
+               'django.template.loaders.filesystem.Loader',
+               'django.template.loaders.app_directories.Loader',
+            )),
+         }
+      }
+   ]
 
 .. _cached template loader:
    https://docs.djangoproject.com/en/dev/ref/templates/api/#django.template.loaders.cached.Loader
+
+.. _Django docs:
+    https://docs.djangoproject.com/en/dev/topics/templates/#module-django.template.backends.django
 
 .. |build| image:: https://travis-ci.org/gregmuellegger/django-mobile.svg?branch=master
     :alt: Build Status
