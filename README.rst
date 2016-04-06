@@ -226,6 +226,8 @@ add your own version instead. Just make sure that it calls
 ``django_mobile.set_flavour`` at some point to set the correct flavour for
 you.
 
+If you need example how tablet detection can be implemented, you can checkout the `middleware.py`_ file in directory `examples`. Feel free to modify it as you like!
+
 Settings
 --------
 
@@ -333,6 +335,9 @@ account. To use it, put the following bit into your ``settings.py`` file:
 
 .. _cached template loader:
    https://docs.djangoproject.com/en/dev/ref/templates/api/#django.template.loaders.cached.Loader
+
+.. _middleware.py:
+   examples/middleware.py
 
 .. |build| image:: https://travis-ci.org/gregmuellegger/django-mobile.svg?branch=master
     :alt: Build Status
