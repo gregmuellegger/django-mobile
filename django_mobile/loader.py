@@ -11,6 +11,9 @@ class Loader(BaseLoader):
     is_usable = True
     _template_source_loaders = None
 
+    def get_contents(self, origin):
+        return origin.loader.get_contents(origin)
+
     def get_template_sources(self, template_name, template_dirs=None):
         template_name = self.prepare_template_name(template_name)
         for loader in self.template_source_loaders:
