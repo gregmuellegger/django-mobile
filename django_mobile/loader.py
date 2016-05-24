@@ -11,6 +11,9 @@ class Loader(BaseLoader):
     is_usable = True
     _template_source_loaders = None
 
+    def get_contents(self, origin):
+        return origin.loader.get_contents(origin)
+
     def get_template_sources(self, template_name, template_dirs=None):
         template_name = self.prepare_template_name(template_name)
         for loader in self.template_source_loaders:
@@ -69,14 +72,17 @@ class Loader(BaseLoader):
 class CachedLoader(DjangoCachedLoader):
     is_usable = True
 
-    def cache_key(self, template_name, template_dirs):
-        if template_dirs:
-            key = '-'.join([
-                template_name,
-                hashlib.sha1(force_bytes('|'.join(template_dirs))).hexdigest()
-            ])
+    def cache_key(self, template_name, template_dirs, *args):
+        if len(args) > 0:  # Django >= 1.9
+            key = super(CachedLoader, self).cache_key(template_name, template_dirs, *args)
         else:
-            key = template_name
+            if template_dirs:
+                key = '-'.join([
+                    template_name,
+                    hashlib.sha1(force_bytes('|'.join(template_dirs))).hexdigest()
+                ])
+            else:
+                key = template_name
 
         return '{0}:{1}'.format(get_flavour(), key)
 
