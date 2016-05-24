@@ -1,6 +1,15 @@
 Changelog
 =========
 
+0.8.0 (in development)
+----------------------
+
+* `#68`_: Support recursive template inheritance in django mobile template
+  loader, so that we are compatible with Django's 1.9 admin. Thanks to
+  @wolfg1969 for the patch.
+
+.. _#68: https://github.com/gregmuellegger/django-mobile/issues/68
+
 0.7.0
 -----
 
