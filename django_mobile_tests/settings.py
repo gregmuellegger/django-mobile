@@ -58,6 +58,8 @@ TEMPLATES= [
     }
 ]
 
+TEMPLATE_LOADERS = TEMPLATES[0]['OPTIONS']['loaders']
+
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
