@@ -158,7 +158,7 @@ class TemplateLoaderTests(BaseTestCase):
         result = result.strip()
         self.assertEqual(result, 'Hello .')
         # simulate RequestContext
-        result = render_to_string('index.html', context_instance=RequestContext(Mock()))
+        result = render_to_string('index.html', context = RequestContext(Mock()).flatten())
         result = result.strip()
         self.assertEqual(result, 'Hello full.')
         set_flavour('mobile')

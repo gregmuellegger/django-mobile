@@ -43,13 +43,20 @@ SECRET_KEY = '0'
 ROOT_URLCONF = 'django_mobile_tests.urls'
 
 # List of callables that know how to import templates from various sources.
-TEMPLATE_LOADERS = (
-    ('django_mobile.loader.CachedLoader', (
-        'django_mobile.loader.Loader',
-        'django.template.loaders.filesystem.Loader',
-        'django.template.loaders.app_directories.Loader',
-    )),
-)
+TEMPLATES= [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'OPTIONS':{
+            'loaders':(
+                ('django_mobile.loader.CachedLoader', (
+                    'django_mobile.loader.Loader',
+                    'django.template.loaders.filesystem.Loader',
+                    'django.template.loaders.app_directories.Loader',
+                )),
+            )
+        }
+    }
+]
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',

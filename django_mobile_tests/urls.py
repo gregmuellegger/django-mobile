@@ -8,11 +8,10 @@ from django_mobile.cache import cache_page
 
 
 def index(request):
-    return render_to_response('index.html', {
-    }, context_instance=RequestContext(request))
+	return render_to_response('index.html',
+		context=RequestContext(request).flatten())
 
-
-urlpatterns = patterns('',
+urlpatterns = [
     url(r'^$', index),
     url(r'^cached/$', cache_page(60*10)(index)),
-)
+]
