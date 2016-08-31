@@ -76,7 +76,6 @@ flavour_storage = ProxyBackend()
 
 
 def get_flavour(request=None, default=None):
-    import pdb; pdb.set_trace()
     flavour = None
     request = request or getattr(_local, 'request', None)
     # get flavour from storage if enabled
