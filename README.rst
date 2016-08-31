@@ -263,6 +263,17 @@ changed in your own ``settings.py``:
     
     **Default:** ``'flavour'``
 
+``FLAVOURS_TEMPLATE_NAMEGETTER``
+    Callable that creates the template name searched, based on **flavor** and
+    provided **template name**.
+
+    **Default:** callable equivalent of:
+
+    .. code-block:: python
+
+        def name_getter(flavor, template_name):
+            return u'%s/%s' % (flavor, template_name)
+
 ``FLAVOURS_TEMPLATE_PREFIX``
     This string will be prefixed to the template names when searching for
     flavoured templates. This is useful if you have many flavours and want to
