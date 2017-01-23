@@ -41,7 +41,7 @@ class defaults(object):
     else:
         DEFAULT_TEMPLATE_LOADERS = django_settings.TEMPLATE_LOADERS
 
-    for loader in django_settings.DEFAULT_TEMPLATE_LOADERS:
+    for loader in DEFAULT_TEMPLATE_LOADERS:
         if isinstance(loader, (tuple, list)) and loader[0] == CACHE_LOADER_NAME:
             for cached_loader in loader[1]:
                 if cached_loader != DJANGO_MOBILE_LOADER:
