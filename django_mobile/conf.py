@@ -37,7 +37,6 @@ class defaults(object):
         for template_engine in django_settings.TEMPLATES:
             loaders += template_engine.get('OPTIONS', {}).get('loaders', [])
         DEFAULT_TEMPLATE_LOADERS = loaders
-        pass
     else:
         DEFAULT_TEMPLATE_LOADERS = django_settings.TEMPLATE_LOADERS
 
