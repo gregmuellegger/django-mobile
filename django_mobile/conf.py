@@ -32,7 +32,7 @@ class defaults(object):
     FLAVOURS_SESSION_KEY = u'flavour'
     FLAVOURS_TEMPLATE_LOADERS = []
 
-    if django_version >= 1.8:
+    if django_version >= (1, 8):
         loaders = []
         for template_engine in django_settings.TEMPLATES:
             loaders += template_engine.get('OPTIONS', {}).get('loaders', [])
