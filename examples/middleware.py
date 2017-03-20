@@ -41,3 +41,5 @@ class MobileTabletDetectionMiddleware(MobileDetectionMiddleware):
         # set tablet flavour. It can be `mobile`, `tablet` or anything you want
         if is_tablet:
             set_flavour(settings.FLAVOURS[2], request)
+        elif not getattr(request, 'flavour', None):
+            set_flavour(settings.FLAVOURS[0], request)
