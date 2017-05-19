@@ -1,10 +1,11 @@
 import re
+from django.utils.deprecation import MiddlewareMixin
 from django_mobile import flavour_storage
 from django_mobile import set_flavour, _init_flavour
 from django_mobile.conf import settings
 
 
-class SetFlavourMiddleware(object):
+class SetFlavourMiddleware(MiddlewareMixin):
     def process_request(self, request):
         _init_flavour(request)
 
