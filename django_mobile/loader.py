@@ -3,7 +3,8 @@ from django.template import TemplateDoesNotExist
 from django.template.loaders.cached import Loader as DjangoCachedLoader
 from django_mobile import get_flavour
 from django_mobile.conf import settings
-from django_mobile.compat import BaseLoader, template_loader, template_from_string
+from django_mobile.compat import (
+    BaseLoader, template_loader, template_from_string)
 from django.utils.encoding import force_bytes
 
 
@@ -19,7 +20,8 @@ class Loader(BaseLoader):
         for loader in self.template_source_loaders:
             if hasattr(loader, 'get_template_sources'):
                 try:
-                    for result in loader.get_template_sources(template_name, template_dirs):
+                    for result in loader.get_template_sources(
+                            template_name, template_dirs):
                         yield result
                 except UnicodeDecodeError:
                     # The template dir name was a bytestring that wasn't valid UTF-8.
@@ -74,12 +76,14 @@ class CachedLoader(DjangoCachedLoader):
 
     def cache_key(self, template_name, template_dirs, *args):
         if len(args) > 0:  # Django >= 1.9
-            key = super(CachedLoader, self).cache_key(template_name, template_dirs, *args)
+            key = super(CachedLoader, self).cache_key(
+                template_name, template_dirs, *args)
         else:
             if template_dirs:
                 key = '-'.join([
                     template_name,
-                    hashlib.sha1(force_bytes('|'.join(template_dirs))).hexdigest()
+                    hashlib.sha1(
+                        force_bytes('|'.join(template_dirs))).hexdigest()
                 ])
             else:
                 key = template_name
@@ -91,7 +95,8 @@ class CachedLoader(DjangoCachedLoader):
         template_tuple = self.template_cache.get(key)
 
         if template_tuple is TemplateDoesNotExist:
-            raise TemplateDoesNotExist('Template not found: %s' % template_name)
+            raise TemplateDoesNotExist(
+                'Template not found: %s' % template_name)
         elif template_tuple is None:
             template, origin = self.find_template(template_name, template_dirs)
             if not hasattr(template, 'render'):

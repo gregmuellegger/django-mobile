@@ -2,9 +2,10 @@ import re
 from django_mobile import flavour_storage
 from django_mobile import set_flavour, _init_flavour
 from django_mobile.conf import settings
+from django.utils.deprecation import MiddlewareMixin
 
 
-class SetFlavourMiddleware(object):
+class SetFlavourMiddleware(MiddlewareMixin):
     def process_request(self, request):
         _init_flavour(request)
 
@@ -18,7 +19,7 @@ class SetFlavourMiddleware(object):
         return response
 
 
-class MobileDetectionMiddleware(object):
+class MobileDetectionMiddleware(MiddlewareMixin):
     user_agents_test_match = (
         "w3c ", "acs-", "alav", "alca", "amoi", "audi",
         "avan", "benq", "bird", "blac", "blaz", "brew",
@@ -27,7 +28,7 @@ class MobileDetectionMiddleware(object):
         "keji", "leno", "lg-c", "lg-d", "lg-g", "lge-",
         "maui", "maxo", "midp", "mits", "mmef", "mobi",
         "mot-", "moto", "mwbp", "nec-", "newt", "noki",
-        "xda",  "palm", "pana", "pant", "phil", "play",
+        "xda", "palm", "pana", "pant", "phil", "play",
         "port", "prox", "qwap", "sage", "sams", "sany",
         "sch-", "sec-", "send", "seri", "sgh-", "shar",
         "sie-", "siem", "smal", "smar", "sony", "sph-",
@@ -42,29 +43,36 @@ class MobileDetectionMiddleware(object):
     user_agents_exception_search = u"(?:%s)" % u'|'.join((
         'ipad',
     ))
-    http_accept_regex = re.compile("application/vnd\.wap\.xhtml\+xml", re.IGNORECASE)
+    http_accept_regex = re.compile(
+        "application/vnd\.wap\.xhtml\+xml", re.IGNORECASE)
 
-    def __init__(self):
-        user_agents_test_match = r'^(?:%s)' % '|'.join(self.user_agents_test_match)
-        self.user_agents_test_match_regex = re.compile(user_agents_test_match, re.IGNORECASE)
-        self.user_agents_test_search_regex = re.compile(self.user_agents_test_search, re.IGNORECASE)
-        self.user_agents_exception_search_regex = re.compile(self.user_agents_exception_search, re.IGNORECASE)
+    def __init__(self, get_response=None):
+        self.get_response = get_response
+        user_agents_test_match = r'^(?:%s)' % '|'.join(
+            self.user_agents_test_match)
+        self.user_agents_test_match_regex = re.compile(
+            user_agents_test_match, re.IGNORECASE)
+        self.user_agents_test_search_regex = re.compile(
+            self.user_agents_test_search, re.IGNORECASE)
+        self.user_agents_exception_search_regex = re.compile(
+            self.user_agents_exception_search, re.IGNORECASE)
+        super(MobileDetectionMiddleware, self).__init__()
 
     def process_request(self, request):
         is_mobile = False
 
-        if 'HTTP_USER_AGENT' in request.META :
+        if 'HTTP_USER_AGENT' in request.META:
             user_agent = request.META['HTTP_USER_AGENT']
 
             # Test common mobile values.
-            if self.user_agents_test_search_regex.search(user_agent) and \
-                not self.user_agents_exception_search_regex.search(user_agent):
+            if self.user_agents_test_search_regex.search(user_agent) and not\
+                    self.user_agents_exception_search_regex.search(user_agent):
                 is_mobile = True
             else:
                 # Nokia like test for WAP browsers.
                 # http://www.developershome.com/wap/xhtmlmp/xhtml_mp_tutorial.asp?page=mimeTypesFileExtension
 
-                if 'HTTP_ACCEPT' in request.META :
+                if 'HTTP_ACCEPT' in request.META:
                     http_accept = request.META['HTTP_ACCEPT']
                     if self.http_accept_regex.search(http_accept):
                         is_mobile = True
