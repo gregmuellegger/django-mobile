@@ -31,10 +31,9 @@ class defaults(object):
     FLAVOURS_COOKIE_HTTPONLY = False
     FLAVOURS_SESSION_KEY = u'flavour'
     FLAVOURS_TEMPLATE_LOADERS = []
-    loaders = [
-        template_conf.get('OPTIONS', {}).get('loaders', '')
-        for template_conf in django_settings.TEMPLATES
-    ]
+    loaders = []
+    for template_conf in django_settings.TEMPLATES:
+        loaders.extend(template_conf.get('OPTIONS', {}).get('loaders', []))
     for loader in loaders:
         if isinstance(loader, (tuple, list))\
                 and loader[0] == CACHE_LOADER_NAME:
