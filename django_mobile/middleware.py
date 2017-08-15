@@ -56,7 +56,7 @@ class MobileDetectionMiddleware(MiddlewareMixin):
             self.user_agents_test_search, re.IGNORECASE)
         self.user_agents_exception_search_regex = re.compile(
             self.user_agents_exception_search, re.IGNORECASE)
-        super(MobileDetectionMiddleware, self).__init__()
+        super(MobileDetectionMiddleware, self).__init__(get_response=get_response)
 
     def process_request(self, request):
         is_mobile = False
