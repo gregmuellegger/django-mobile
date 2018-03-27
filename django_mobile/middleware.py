@@ -38,7 +38,7 @@ class MobileDetectionMiddleware(MiddlewareMixin):
     user_agents_test_search = u"(?:%s)" % u'|'.join((
         'up.browser', 'up.link', 'mmp', 'symbian', 'smartphone', 'midp',
         'wap', 'phone', 'windows ce', 'pda', 'mobile', 'mini', 'palm',
-        'netfront', 'opera mobi',
+        'netfront', 'opera mobi', 'impad'
     ))
     user_agents_exception_search = u"(?:%s)" % u'|'.join((
         'ipad',
@@ -56,14 +56,19 @@ class MobileDetectionMiddleware(MiddlewareMixin):
             self.user_agents_test_search, re.IGNORECASE)
         self.user_agents_exception_search_regex = re.compile(
             self.user_agents_exception_search, re.IGNORECASE)
-        super(MobileDetectionMiddleware, self).__init__(get_response=get_response)
+        super(MobileDetectionMiddleware, self).__init__(
+            get_response=get_response)
 
     def process_request(self, request):
         is_mobile = False
 
         if 'HTTP_USER_AGENT' in request.META:
             user_agent = request.META['HTTP_USER_AGENT']
-
+            uc_header_key = [
+                k for k in request.META.keys() if 'ucbrowser' in k.lower()]
+            if uc_header_key and\
+                    'android' in request.META[uc_header_key[0]].lower():
+                is_mobile = True
             # Test common mobile values.
             if self.user_agents_test_search_regex.search(user_agent) and not\
                     self.user_agents_exception_search_regex.search(user_agent):
