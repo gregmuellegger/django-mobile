@@ -7,6 +7,11 @@ env:
   - TOX_ENV=py35-20
   - TOX_ENV=py36-111
   - TOX_ENV=py36-20
+matrix:
+  allow_failures:
+    - env: TOX_ENV=py34-20
+    - env: TOX_ENV=py35-20
+    - env: TOX_ENV=py36-20
 before_install:
   - sudo pip install tox
 script:
