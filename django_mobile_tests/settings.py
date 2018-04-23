@@ -78,8 +78,6 @@ TEMPLATES = [
     },
 ]
 
-TEMPLATE_LOADERS = TEMPLATES[0]['OPTIONS']['loaders']
-
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
