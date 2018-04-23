@@ -30,7 +30,13 @@ class defaults(object):
     FLAVOURS_COOKIE_HTTPONLY = False
     FLAVOURS_SESSION_KEY = u'flavour'
     FLAVOURS_TEMPLATE_LOADERS = []
-    for loader in django_settings.TEMPLATE_LOADERS:
+
+    DEFAULT_TEMPLATE_LOADERS = []
+    for template_engine in django_settings.TEMPLATES:
+        DEFAULT_TEMPLATE_LOADERS += template_engine.get(
+            'OPTIONS', {}).get('loaders', [])
+
+    for loader in DEFAULT_TEMPLATE_LOADERS:
         if isinstance(loader, (tuple, list)) and loader[0] == CACHE_LOADER_NAME:
             for cached_loader in loader[1]:
                 if cached_loader != DJANGO_MOBILE_LOADER:
@@ -38,5 +44,6 @@ class defaults(object):
         elif loader != DJANGO_MOBILE_LOADER:
             FLAVOURS_TEMPLATE_LOADERS.append(loader)
     FLAVOURS_TEMPLATE_LOADERS = tuple(FLAVOURS_TEMPLATE_LOADERS)
+
 
 settings = SettingsProxy(django_settings, defaults)

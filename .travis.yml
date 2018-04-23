@@ -1,22 +1,17 @@
 language: python
 env:
-  - TOX_ENV=py26-15
-  - TOX_ENV=py26-16
-  - TOX_ENV=py27-15
-  - TOX_ENV=py27-16
-  - TOX_ENV=py27-17
-  - TOX_ENV=py27-18
-  - TOX_ENV=py27-19
-  - TOX_ENV=py33-17
-  - TOX_ENV=py33-18
-  - TOX_ENV=py34-17
-  - TOX_ENV=py34-18
-  - TOX_ENV=py34-19
-  - TOX_ENV=pypy-15
-  - TOX_ENV=pypy-16
-  - TOX_ENV=pypy-17
-  - TOX_ENV=pypy-18
-  - TOX_ENV=pypy-19
+  - TOX_ENV=py27-111
+  - TOX_ENV=py34-111
+  - TOX_ENV=py34-20
+  - TOX_ENV=py35-111
+  - TOX_ENV=py35-20
+  - TOX_ENV=py36-111
+  - TOX_ENV=py36-20
+matrix:
+  allow_failures:
+    - env: TOX_ENV=py34-20
+    - env: TOX_ENV=py35-20
+    - env: TOX_ENV=py36-20
 before_install:
   - sudo pip install tox
 script:
@@ -29,4 +24,4 @@ deploy:
   on:
     tags: true
     repo: gregmuellegger/django-mobile
-    condition: "$TOX_ENV = py34-18"
+    condition: "$TOX_ENV = py34-111"

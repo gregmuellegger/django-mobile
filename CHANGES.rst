@@ -10,6 +10,10 @@ Changelog
 
 .. _#68: https://github.com/gregmuellegger/django-mobile/issues/68
 
+* `#81`_: Django 1.11 support.
+
+.. _#81: https://github.com/gregmuellegger/django-mobile/issues/81
+
 0.7.0
 -----
 
@@ -66,7 +70,7 @@ Changelog
 -----
 
 * FIX: Cookie backend actually never really worked. Thanks to demidov91 for
-  the report. 
+  the report.
 
 0.2.3
 -----

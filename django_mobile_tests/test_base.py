@@ -12,6 +12,7 @@ from django_mobile.middleware import MobileDetectionMiddleware, \
 
 IS_PYTHON_3 = sys.version > '3'
 
+
 def _reset():
     '''
     Reset the thread local.
@@ -20,15 +21,17 @@ def _reset():
     del django_mobile._local
     django_mobile._local = threading.local()
 
-def str_p3_response( string ) :
+
+def str_p3_response(string):
     """
     Since response.content is a binary string in python 3,
     we decode it to make it comparable to str objects
     ( python 2 compatibility )
     """
-    if IS_PYTHON_3 :
-        return string.decode( 'ASCII' )
+    if IS_PYTHON_3:
+        return string.decode('ASCII')
     return string
+
 
 class BaseTestCase(TestCase):
     def setUp(self):
@@ -158,7 +161,7 @@ class TemplateLoaderTests(BaseTestCase):
         result = result.strip()
         self.assertEqual(result, 'Hello .')
         # simulate RequestContext
-        result = render_to_string('index.html', context_instance=RequestContext(Mock()))
+        result = render_to_string('index.html', request=RequestContext(Mock()))
         result = result.strip()
         self.assertEqual(result, 'Hello full.')
         set_flavour('mobile')
