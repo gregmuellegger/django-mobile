@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-__author__ = u'Gregor Müllegger'
-__version__ = '0.7.0.dev1'
+__author__ = "Gregor Müllegger"
+__version__ = "0.9.0b1"
 
 
 import threading
@@ -33,17 +33,18 @@ class CookieBackend(object):
         request._flavour_cookie = flavour
 
     def save(self, request, response):
-        if hasattr(request, '_flavour_cookie'):
+        if hasattr(request, "_flavour_cookie"):
             response.set_cookie(
                 smart_str(settings.FLAVOURS_COOKIE_KEY),
                 smart_str(request._flavour_cookie),
-                httponly=settings.FLAVOURS_COOKIE_HTTPONLY)
+                httponly=settings.FLAVOURS_COOKIE_HTTPONLY,
+            )
 
 
 # hijack this dict to add your own backend
 FLAVOUR_STORAGE_BACKENDS = {
-    'cookie': CookieBackend(),
-    'session': SessionBackend(),
+    "cookie": CookieBackend(),
+    "session": SessionBackend(),
 }
 
 
@@ -53,7 +54,8 @@ class ProxyBackend(object):
         if not settings.FLAVOURS_STORAGE_BACKEND:
             raise ImproperlyConfigured(
                 u"You must specify a FLAVOURS_STORAGE_BACKEND setting to "
-                u"save the flavour for a user.")
+                u"save the flavour for a user."
+            )
         return FLAVOUR_STORAGE_BACKENDS[backend]
 
     def get(self, *args, **kwargs):
@@ -77,16 +79,16 @@ flavour_storage = ProxyBackend()
 
 def get_flavour(request=None, default=None):
     flavour = None
-    request = request or getattr(_local, 'request', None)
+    request = request or getattr(_local, "request", None)
     # get flavour from storage if enabled
     if request:
         flavour = flavour_storage.get(request)
     # check if flavour is set on request
-    if not flavour and hasattr(request, 'flavour'):
+    if not flavour and hasattr(request, "flavour"):
         flavour = request.flavour
     # if set out of a request-response cycle its stored on the thread local
     if not flavour:
-        flavour = getattr(_local, 'flavour', default)
+        flavour = getattr(_local, "flavour", default)
     # if something went wrong we return the very default flavour
     if flavour not in settings.FLAVOURS:
         flavour = settings.FLAVOURS[0]
@@ -96,27 +98,26 @@ def get_flavour(request=None, default=None):
 def set_flavour(flavour, request=None, permanent=False):
     if flavour not in settings.FLAVOURS:
         raise ValueError(
-            u"'%r' is no valid flavour. Allowed flavours are: %s" % (
-                flavour,
-                ', '.join(settings.FLAVOURS),))
-    request = request or getattr(_local, 'request', None)
+            u"'%r' is no valid flavour. Allowed flavours are: %s"
+            % (flavour, ", ".join(settings.FLAVOURS),)
+        )
+    request = request or getattr(_local, "request", None)
     if request:
         request.flavour = flavour
         if permanent:
             flavour_storage.set(request, flavour)
     elif permanent:
-        raise ValueError(
-            u'Cannot set flavour permanently, no request available.')
+        raise ValueError(u"Cannot set flavour permanently, no request available.")
     _local.flavour = flavour
 
 
 def _set_request_header(request, flavour):
-    request.META['HTTP_X_FLAVOUR'] = flavour
+    request.META["HTTP_X_FLAVOUR"] = flavour
 
 
 def _init_flavour(request):
     _local.request = request
-    if hasattr(request, 'flavour'):
+    if hasattr(request, "flavour"):
         _local.flavour = request.flavour
-    if not hasattr(_local, 'flavour'):
+    if not hasattr(_local, "flavour"):
         _local.flavour = settings.FLAVOURS[0]

@@ -3,7 +3,11 @@ try:
     from django.template.loaders.base import Loader as BaseLoader
 except ImportError:  # Django < 1.8
     Engine = None
-    from django.template.loader import BaseLoader, find_template_loader, get_template_from_string
+    from django.template.loader import (
+        BaseLoader,
+        find_template_loader,
+        get_template_from_string,
+    )
 
 
 def template_loader(loader_name):
