@@ -106,7 +106,7 @@ class MobileDetectionMiddleware(MiddlewareMixin):
         "winw",
         "xda-",
     )
-    user_agents_test_search = u"(?:%s)" % u"|".join(
+    user_agents_test_search = "(?:%s)" % u"|".join(
         (
             "up.browser",
             "up.link",
@@ -125,7 +125,7 @@ class MobileDetectionMiddleware(MiddlewareMixin):
             "opera mobi",
         )
     )
-    user_agents_exception_search = u"(?:%s)" % u"|".join(("ipad",))
+    user_agents_exception_search = "(?:%s)" % u"|".join(("ipad",))
     http_accept_regex = re.compile("application/vnd\.wap\.xhtml\+xml", re.IGNORECASE)
 
     def __init__(self, get_response=None):

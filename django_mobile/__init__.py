@@ -53,8 +53,8 @@ class ProxyBackend(object):
         backend = settings.FLAVOURS_STORAGE_BACKEND
         if not settings.FLAVOURS_STORAGE_BACKEND:
             raise ImproperlyConfigured(
-                u"You must specify a FLAVOURS_STORAGE_BACKEND setting to "
-                u"save the flavour for a user."
+                "You must specify a FLAVOURS_STORAGE_BACKEND setting to "
+                "save the flavour for a user."
             )
         return FLAVOUR_STORAGE_BACKENDS[backend]
 
@@ -98,7 +98,7 @@ def get_flavour(request=None, default=None):
 def set_flavour(flavour, request=None, permanent=False):
     if flavour not in settings.FLAVOURS:
         raise ValueError(
-            u"'%r' is no valid flavour. Allowed flavours are: %s"
+            "'%r' is no valid flavour. Allowed flavours are: %s"
             % (flavour, ", ".join(settings.FLAVOURS),)
         )
     request = request or getattr(_local, "request", None)
@@ -107,7 +107,7 @@ def set_flavour(flavour, request=None, permanent=False):
         if permanent:
             flavour_storage.set(request, flavour)
     elif permanent:
-        raise ValueError(u"Cannot set flavour permanently, no request available.")
+        raise ValueError("Cannot set flavour permanently, no request available.")
     _local.flavour = flavour
 
 

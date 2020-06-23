@@ -9,9 +9,9 @@ class MobileTabletDetectionMiddleware(MobileDetectionMiddleware):
     # Example how default middleware could be expanded to provide possibility to detect
     # tablet devices.
 
-    user_agents_android_search = u"(?:android)"
-    user_agents_mobile_search = u"(?:mobile)"
-    user_agents_tablets_search = u"(?:%s)" % u"|".join(("ipad", "tablet",))
+    user_agents_android_search = "(?:android)"
+    user_agents_mobile_search = "(?:mobile)"
+    user_agents_tablets_search = "(?:%s)" % "|".join(("ipad", "tablet",))
 
     def __init__(self):
         super(MobileTabletDetectionMiddleware, self).__init__()

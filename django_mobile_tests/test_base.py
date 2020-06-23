@@ -59,7 +59,7 @@ class BasicFunctionTests(BaseTestCase):
                 "/", {settings.FLAVOURS_GET_PARAMETER: "mobile",}
             )
             self.assertTrue(settings.FLAVOURS_COOKIE_KEY in response.cookies)
-            self.assertTrue(response.cookies[settings.FLAVOURS_COOKIE_KEY], u"mobile")
+            self.assertTrue(response.cookies[settings.FLAVOURS_COOKIE_KEY], "mobile")
             self.assertContains(response, "Mobile!")
         finally:
             settings.FLAVOURS_STORAGE_BACKEND = original_FLAVOURS_STORAGE_BACKEND
@@ -74,7 +74,7 @@ class BasicFunctionTests(BaseTestCase):
             self.assertEqual(request.session, {})
             set_flavour("mobile", request=request, permanent=True)
             self.assertEqual(
-                request.session, {settings.FLAVOURS_SESSION_KEY: u"mobile"}
+                request.session, {settings.FLAVOURS_SESSION_KEY: "mobile"}
             )
             self.assertEqual(get_flavour(request), "mobile")
 
@@ -232,27 +232,27 @@ class RealAgentNameTests(BaseTestCase):
         client = Client(HTTP_USER_AGENT=agent)
         response = client.get("/")
         if str_p3_response(response.content.strip()) != "Hello full.":
-            self.fail(u"Agent is matched as mobile: %s" % agent)
+            self.fail("Agent is matched as mobile: %s" % agent)
 
     def assertMobileFlavour(self, agent):
         client = Client(HTTP_USER_AGENT=agent)
         response = client.get("/")
         if str_p3_response(response.content.strip()) != "Mobile!":
-            self.fail(u"Agent is not matched as mobile: %s" % agent)
+            self.fail("Agent is not matched as mobile: %s" % agent)
 
     def test_ipad(self):
         self.assertFullFlavour(
-            u"Mozilla/5.0 (iPad; U; CPU OS 3_2 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Version/4.0.4 Mobile/7B334b Safari/531.21.10"
+            "Mozilla/5.0 (iPad; U; CPU OS 3_2 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Version/4.0.4 Mobile/7B334b Safari/531.21.10"
         )
 
     def test_iphone(self):
         self.assertMobileFlavour(
-            u"Mozilla/5.0 (iPhone; U; CPU like Mac OS X; en) AppleWebKit/420+ (KHTML, like Gecko) Version/3.0 Mobile/1A543a Safari/419.3"
+            "Mozilla/5.0 (iPhone; U; CPU like Mac OS X; en) AppleWebKit/420+ (KHTML, like Gecko) Version/3.0 Mobile/1A543a Safari/419.3"
         )
 
     def test_motorola_xoom(self):
         self.assertFullFlavour(
-            u"Mozilla/5.0 (Linux; U; Android 3.0; en-us; Xoom Build/HRI39) AppleWebKit/534.13 (KHTML, like Gecko) Version/4.0 Safari/534.13"
+            "Mozilla/5.0 (Linux; U; Android 3.0; en-us; Xoom Build/HRI39) AppleWebKit/534.13 (KHTML, like Gecko) Version/4.0 Safari/534.13"
         )
 
     def test_opera_mobile_on_android(self):
@@ -260,7 +260,7 @@ class RealAgentNameTests(BaseTestCase):
         Regression test of issue #9
         """
         self.assertMobileFlavour(
-            u"Opera/9.80 (Android 2.3.3; Linux; Opera Mobi/ADR-1111101157; U; en) Presto/2.9.201 Version/11.50"
+            "Opera/9.80 (Android 2.3.3; Linux; Opera Mobi/ADR-1111101157; U; en) Presto/2.9.201 Version/11.50"
         )
 
 

@@ -43,7 +43,7 @@ class Loader(BaseLoader):
 
     def _prepare_template_name(self, template_name):
         """Prepare the template name taking into consideration the flavor."""
-        template_name = u"%s/%s" % (get_flavour(), template_name)
+        template_name = "%s/%s" % (get_flavour(), template_name)
         if settings.FLAVOURS_TEMPLATE_PREFIX:
             template_name = settings.FLAVOURS_TEMPLATE_PREFIX + template_name
         return template_name

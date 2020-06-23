@@ -56,14 +56,7 @@ class UltraMagicString(object):
         return self.value.split(*args, **kw)
 
 
-if sys.version_info[0] >= 3:
-    long_description = u"\n\n".join((readfile(README_PATH), readfile(CHANGES_PATH),))
-else:
-    long_description = u"\n\n".join(
-        (readfile(README_PATH).decode("utf-8"), readfile(CHANGES_PATH).decode("utf-8"),)
-    )
-    long_description = long_description.encode("utf-8")
-    long_description = UltraMagicString(long_description)
+long_description = "\n\n".join((readfile(README_PATH), readfile(CHANGES_PATH),))
 
 
 setup(
@@ -84,9 +77,9 @@ setup(
         "License :: OSI Approved :: BSD License",
         "Natural Language :: English",
         "Operating System :: OS Independent",
-        "Programming Language :: Python :: 2.6",
-        "Programming Language :: Python :: 2.7",
-        "Programming Language :: Python :: 3.3",
+        "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
         "Topic :: Internet :: WWW/HTTP",
         "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
         "Topic :: Software Development :: Libraries :: Python Modules",
