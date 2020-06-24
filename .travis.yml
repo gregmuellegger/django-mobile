@@ -1,9 +1,13 @@
 language: python
 dist: bionic
-env:
-  - TOX_ENV=py36
-  - TOX_ENV=py37
-  - TOX_ENV=py38
+matrix:
+  include:
+    - python: 3.6
+      env: TOX_ENV=py36
+    - python: 3.7
+      env: TOX_ENV=py37
+    - python: 3.8
+      env: TOX_ENV=py38
 before_install:
   - sudo pip install tox
 script:
