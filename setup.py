@@ -85,6 +85,16 @@ setup(
         "Topic :: Software Development :: Libraries :: Python Modules",
     ],
     packages=["django_mobile", "django_mobile.cache",],
-    tests_require=["Django", "mock"],
+    install_requires=[
+        "argparse",
+        "coverage",
+        "django<3 ; python_version<'3.8'",
+        "django<4 ; python_version=='3.8'",
+        "django-discover-runner",
+        "mock",
+        "pytest",
+        "pytest-django",
+    ],
+    tests_require=["django", "mock"],
     test_suite="django_mobile_tests.runtests.runtests",
 )

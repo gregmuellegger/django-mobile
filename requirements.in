@@ -1,9 +1,0 @@
-argparse
-coverage
-django<2       ; python_version<'3.6'
-django==2.2.12 ; python_version=='3.7'
-django==3.0.6  ; python_version=='3.8'
-django-discover-runner
-mock
-pytest
-pytest-django
