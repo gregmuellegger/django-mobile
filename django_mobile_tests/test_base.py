@@ -9,8 +9,6 @@ from django_mobile.conf import settings
 from django_mobile.compat import get_engine
 from django_mobile.middleware import MobileDetectionMiddleware, SetFlavourMiddleware
 
-IS_PYTHON_3 = sys.version > "3"
-
 
 def _reset():
     """
@@ -28,9 +26,7 @@ def str_p3_response(string):
     we decode it to make it comparable to str objects
     ( python 2 compatibility )
     """
-    if IS_PYTHON_3:
-        return string.decode("ASCII")
-    return string
+    return string.decode("ASCII")
 
 
 class BaseTestCase(TestCase):
