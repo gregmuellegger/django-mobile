@@ -6,11 +6,13 @@ from django_mobile import get_flavour, _set_request_header
 
 class CacheFlavourMiddleware(object):
     def __init__(self):
-        warnings.warn('CacheFlavourMiddleware does nothing and should be abandoned.'
-                      'The intended behavior cannot be implemented using one middleware.'
-                      'Use separate FetchFromCacheFlavourMiddleware and UpdateCacheFlavourMiddleware instead.'
-                      'Refer to https://github.com/gregmuellegger/django-mobile/pull/64 for details',
-                      category=DeprecationWarning)
+        warnings.warn(
+            "CacheFlavourMiddleware does nothing and should be abandoned."
+            "The intended behavior cannot be implemented using one middleware."
+            "Use separate FetchFromCacheFlavourMiddleware and UpdateCacheFlavourMiddleware instead."
+            "Refer to https://github.com/gregmuellegger/django-mobile/pull/64 for details",
+            category=DeprecationWarning,
+        )
 
 
 class FetchFromCacheFlavourMiddleware(object):
@@ -20,5 +22,5 @@ class FetchFromCacheFlavourMiddleware(object):
 
 class UpdateCacheFlavourMiddleware(object):
     def process_response(self, request, response):
-        patch_vary_headers(response, ['X-Flavour'])
+        patch_vary_headers(response, ["X-Flavour"])
         return response

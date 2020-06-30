@@ -1,32 +1,14 @@
 language: python
-env:
-  - TOX_ENV=py26-15
-  - TOX_ENV=py26-16
-  - TOX_ENV=py27-15
-  - TOX_ENV=py27-16
-  - TOX_ENV=py27-17
-  - TOX_ENV=py27-18
-  - TOX_ENV=py27-19
-  - TOX_ENV=py33-17
-  - TOX_ENV=py33-18
-  - TOX_ENV=py34-17
-  - TOX_ENV=py34-18
-  - TOX_ENV=py34-19
-  - TOX_ENV=pypy-15
-  - TOX_ENV=pypy-16
-  - TOX_ENV=pypy-17
-  - TOX_ENV=pypy-18
-  - TOX_ENV=pypy-19
+dist: bionic
+matrix:
+  include:
+    - python: 3.6
+      env: TOX_ENV=py36
+    - python: 3.7
+      env: TOX_ENV=py37
+    - python: 3.8
+      env: TOX_ENV=py38
 before_install:
   - sudo pip install tox
 script:
   - tox -e $TOX_ENV
-deploy:
-  provider: pypi
-  user: gremu
-  password:
-    secure: mT6Gzp14P5GuWUi0MlXiBZuH6pb6M6daPe350BLo+66DQ/s1RMqqBU3lu7KTaNIKui1ZoitfNyiMiQ0QYP3+4RvR2/9HK9BEqVY7lK5mDxRWxDr1lVUnV3Bg37Vqj8792xdstDbRwP7/EkZEuviTTWAMEbYE8YJu4M/XLWpgnYY=
-  on:
-    tags: true
-    repo: gregmuellegger/django-mobile
-    condition: "$TOX_ENV = py34-18"

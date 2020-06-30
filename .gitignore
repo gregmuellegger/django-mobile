@@ -1,1 +1,7 @@
 .tox/
+__pycache__/
+*.egg-info/
+/.coverage
+/dist/
+/build/
+

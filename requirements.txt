@@ -1,0 +1,26 @@
+appdirs==1.4.4
+attr==0.3.1
+attrs==19.3.0
+click==7.1.2
+coverage==5.1
+distlib==0.3.0
+django==2.2.12 ; python_version<'3.8'
+django==3.0.6  ; python_version=='3.8'
+django-discover-runner==1.0
+filelock==3.0.12
+mock==1.0.1
+more-itertools==8.3.0
+packaging==20.4
+pip-tools==5.2.0
+pluggy==0.13.1
+py==1.8.1
+pyparsing==2.4.7
+pytest==5.4.3
+pytest-django==3.9.0
+pytz==2020.1
+six==1.15.0
+sqlparse==0.3.1
+toml==0.10.1
+tox==3.15.1
+virtualenv==20.0.21
+wcwidth==0.2.3
