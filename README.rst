@@ -1,5 +1,5 @@
 =============
-django-mobile
+django-mobile (patched for Django 1.11 and 2.2)
 =============
 
 |build| |package|
@@ -18,6 +18,8 @@ steps:
    he wants to use the mobile flavour or the full desktop flavour.
 2. The template loader takes then care of choosing the correct templates based
    on the flavour detected in the middleware.
+
+*The original project https://github.com/gregmuellegger/django-mobile has been abandoned. This is a fork which takes fixes from https://github.com/ProfBIT-develop/django-mobile.*
 
 
 Installation
