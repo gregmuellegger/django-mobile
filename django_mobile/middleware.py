@@ -4,7 +4,8 @@ from django_mobile import set_flavour, _init_flavour
 from django_mobile.conf import settings
 
 
-class SetFlavourMiddleware(object):
+#class SetFlavourMiddleware(object):
+class SetFlavourMiddleware:
     def process_request(self, request):
         _init_flavour(request)
 
@@ -18,7 +19,8 @@ class SetFlavourMiddleware(object):
         return response
 
 
-class MobileDetectionMiddleware(object):
+#class MobileDetectionMiddleware(object):
+class MobileDetectionMiddleware:
     user_agents_test_match = (
         "w3c ", "acs-", "alav", "alca", "amoi", "audi",
         "avan", "benq", "bird", "blac", "blaz", "brew",
