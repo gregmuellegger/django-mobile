@@ -19,7 +19,7 @@ class Loader(BaseLoader):
         for loader in self.template_source_loaders:
             if hasattr(loader, 'get_template_sources'):
                 try:
-                    for result in loader.get_template_sources(template_name, template_dirs):
+                    for result in loader.get_template_sources(template_name):
                         yield result
                 except UnicodeDecodeError:
                     # The template dir name was a bytestring that wasn't valid UTF-8.
