@@ -1,1 +1,6 @@
 .tox/
+/.coverage
+/.idea
+db.sqlite
+__pycache__
+/django_mobile.egg-info

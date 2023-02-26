@@ -1,10 +1,11 @@
 import re
+from django.utils.deprecation import MiddlewareMixin
 from django_mobile import flavour_storage
 from django_mobile import set_flavour, _init_flavour
 from django_mobile.conf import settings
 
 
-class SetFlavourMiddleware(object):
+class SetFlavourMiddleware(MiddlewareMixin):
     def process_request(self, request):
         _init_flavour(request)
 
@@ -18,7 +19,7 @@ class SetFlavourMiddleware(object):
         return response
 
 
-class MobileDetectionMiddleware(object):
+class MobileDetectionMiddleware(MiddlewareMixin):
     user_agents_test_match = (
         "w3c ", "acs-", "alav", "alca", "amoi", "audi",
         "avan", "benq", "bird", "blac", "blaz", "brew",
@@ -42,9 +43,10 @@ class MobileDetectionMiddleware(object):
     user_agents_exception_search = u"(?:%s)" % u'|'.join((
         'ipad',
     ))
-    http_accept_regex = re.compile("application/vnd\.wap\.xhtml\+xml", re.IGNORECASE)
+    http_accept_regex = re.compile(r'application/vnd\.wap\.xhtml\+xml', re.IGNORECASE)
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         user_agents_test_match = r'^(?:%s)' % '|'.join(self.user_agents_test_match)
         self.user_agents_test_match_regex = re.compile(user_agents_test_match, re.IGNORECASE)
         self.user_agents_test_search_regex = re.compile(self.user_agents_test_search, re.IGNORECASE)
@@ -64,7 +66,7 @@ class MobileDetectionMiddleware(object):
                 # Nokia like test for WAP browsers.
                 # http://www.developershome.com/wap/xhtmlmp/xhtml_mp_tutorial.asp?page=mimeTypesFileExtension
 
-                if 'HTTP_ACCEPT' in request.META :
+                if 'HTTP_ACCEPT' in request.META:
                     http_accept = request.META['HTTP_ACCEPT']
                     if self.http_accept_regex.search(http_accept):
                         is_mobile = True

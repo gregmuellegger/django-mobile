@@ -43,8 +43,6 @@ is enabled and working.
 6. Add ``django_mobile.context_processors.flavour`` to your
    ``context_processors`` list for ``TEMPLATES`` setting. You can read more about ``loaders`` and ``context_processors`` in `Django docs`_.
 
-*Note:* If you are using Django 1.7 or older, you need to change step 5 and 6 slightly. Use the ``TEMPLATE_LOADERS`` and ``TEMPLATE_CONTEXT_PROCESSORS`` settings instead of ``TEMPLATES``.
-
 Now you should be able to use **django-mobile** in its glory. Read below of how
 things work and which settings can be tweaked to modify **django-mobile**'s
 behaviour.
@@ -99,8 +97,7 @@ This will add ``(mobile version)`` to the title of your site if viewed with
 the mobile flavour enabled.
 
 *Note:* The ``flavour`` template variable is only available if you have set up the
-``django_mobile.context_processors.flavour`` context processor and used
-django's ``RequestContext`` as context instance to render the template.
+``django_mobile.context_processors.flavour`` context processor.
 
 Changing the current flavour
 ----------------------------
