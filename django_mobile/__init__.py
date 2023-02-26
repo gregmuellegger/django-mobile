@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 __author__ = u'Gregor Müllegger'
-__version__ = '0.7.0.dev1'
+__version__ = '1.0.0.RC1'
 
 
 import threading

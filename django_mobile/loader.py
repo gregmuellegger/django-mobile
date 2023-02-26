@@ -1,10 +1,10 @@
-import hashlib
-from django.template import TemplateDoesNotExist
+from django.template.exceptions import TemplateDoesNotExist
 from django.template.loaders.cached import Loader as DjangoCachedLoader
 from django_mobile import get_flavour
 from django_mobile.conf import settings
-from django_mobile.compat import BaseLoader, template_loader, template_from_string
-from django.utils.encoding import force_bytes
+
+from django.template.engine import Engine
+from django.template.loaders.base import Loader as BaseLoader
 
 
 class Loader(BaseLoader):
@@ -14,21 +14,17 @@ class Loader(BaseLoader):
     def get_contents(self, origin):
         return origin.loader.get_contents(origin)
 
-    def get_template_sources(self, template_name, template_dirs=None):
+    def get_template_sources(self, template_name):
         template_name = self.prepare_template_name(template_name)
         for loader in self.template_source_loaders:
-            if hasattr(loader, 'get_template_sources'):
-                try:
-                    for result in loader.get_template_sources(template_name, template_dirs):
-                        yield result
-                except UnicodeDecodeError:
-                    # The template dir name was a bytestring that wasn't valid UTF-8.
-                    raise
-                except ValueError:
-                    # The joined path was located outside of this particular
-                    # template_dir (it might be inside another one, so this isn't
-                    # fatal).
-                    pass
+            try:
+                for result in loader.get_template_sources(template_name):
+                    yield result
+            except ValueError:
+                # The joined path was located outside this particular
+                # template_dir (it might be inside another one, so this isn't
+                # fatal).
+                pass
 
     def prepare_template_name(self, template_name):
         template_name = u'%s/%s' % (get_flavour(), template_name)
@@ -36,25 +32,13 @@ class Loader(BaseLoader):
             template_name = settings.FLAVOURS_TEMPLATE_PREFIX + template_name
         return template_name
 
-    def load_template(self, template_name, template_dirs=None):
+    def get_template(self, template_name, skip=None):
         template_name = self.prepare_template_name(template_name)
         for loader in self.template_source_loaders:
             try:
-                return loader(template_name, template_dirs)
+                return loader.get_template(template_name, skip=skip)
             except TemplateDoesNotExist:
                 pass
-        raise TemplateDoesNotExist("Tried %s" % template_name)
-
-    def load_template_source(self, template_name, template_dirs=None):
-        template_name = self.prepare_template_name(template_name)
-        for loader in self.template_source_loaders:
-            if hasattr(loader, 'load_template_source'):
-                try:
-                    return loader.load_template_source(
-                        template_name,
-                        template_dirs)
-                except TemplateDoesNotExist:
-                    pass
         raise TemplateDoesNotExist("Tried %s" % template_name)
 
     @property
@@ -62,7 +46,7 @@ class Loader(BaseLoader):
         if not self._template_source_loaders:
             loaders = []
             for loader_name in settings.FLAVOURS_TEMPLATE_LOADERS:
-                loader = template_loader(loader_name)
+                loader = Engine.get_default().find_template_loader(loader_name)
                 if loader is not None:
                     loaders.append(loader)
             self._template_source_loaders = tuple(loaders)
@@ -72,38 +56,32 @@ class Loader(BaseLoader):
 class CachedLoader(DjangoCachedLoader):
     is_usable = True
 
-    def cache_key(self, template_name, template_dirs, *args):
+    def cache_key(self, template_name, *args, **kwargs):
         if len(args) > 0:  # Django >= 1.9
-            key = super(CachedLoader, self).cache_key(template_name, template_dirs, *args)
+            key = super(CachedLoader, self).cache_key(template_name, *args, **kwargs)
         else:
-            if template_dirs:
-                key = '-'.join([
-                    template_name,
-                    hashlib.sha1(force_bytes('|'.join(template_dirs))).hexdigest()
-                ])
-            else:
-                key = template_name
+            key = template_name
 
         return '{0}:{1}'.format(get_flavour(), key)
 
-    def load_template(self, template_name, template_dirs=None):
-        key = self.cache_key(template_name, template_dirs)
-        template_tuple = self.template_cache.get(key)
+    def get_template(self, template_name, skip=None):
+        key = self.cache_key(template_name)
+        template_tuple = self.get_template_cache.get(key)
 
         if template_tuple is TemplateDoesNotExist:
             raise TemplateDoesNotExist('Template not found: %s' % template_name)
         elif template_tuple is None:
-            template, origin = self.find_template(template_name, template_dirs)
+            template, origin = self.get_template(template_name, skip=skip)
             if not hasattr(template, 'render'):
                 try:
-                    template = template_from_string(template)
+                    template = Engine.get_default().from_string(template)
                 except TemplateDoesNotExist:
                     # If compiling the template we found raises TemplateDoesNotExist,
                     # back off to returning the source and display name for the template
                     # we were asked to load. This allows for correct identification (later)
                     # of the actual template that does not exist.
-                    self.template_cache[key] = (template, origin)
+                    self.get_template_cache[key] = (template, origin)
 
-            self.template_cache[key] = (template, None)
+            self.get_template_cache[key] = (template, None)
 
-        return self.template_cache[key]
+        return self.get_template_cache[key]

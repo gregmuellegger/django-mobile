@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import argparse
-import os, sys
+import os
+import sys
 
 
 os.environ['DJANGO_SETTINGS_MODULE'] = 'django_mobile_tests.settings'
@@ -39,7 +40,7 @@ def runtests(*argv):
 argparser = argparse.ArgumentParser(description='Process some integers.')
 argparser.add_argument('appname', nargs='*')
 argparser.add_argument('--no-coverage', dest='coverage', action='store_const',
-    const=False, default=True, help='Do not collect coverage data.')
+                       const=False, default=True, help='Do not collect coverage data.')
 
 
 if __name__ == '__main__':
